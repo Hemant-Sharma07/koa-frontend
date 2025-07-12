@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { MdLocationOn, MdOutlineEmail, MdPhone } from "react-icons/md";
-import logo from "../../assets/KOAlogo.jpeg";
 
 export default function KoaLaunchPage() {
   const [email, setEmail] = useState("");
@@ -45,7 +44,7 @@ export default function KoaLaunchPage() {
       {/* Logo in Top Left */}
       <div className="absolute top-4 left-4 lg:top-8 lg:left-8 z-20">
         <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 rounded-full flex items-center justify-center shadow-xl border-2 border-amber-100">
-          <img src={logo} alt="" />
+          <img src="/KOALogo.jpeg" alt="" />
         </div>
       </div>
 
