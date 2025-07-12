@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 // import Dashboard from './components/Dashboard';
 import { UserAuthProvider,useUserAuth } from './context/userAuthContext';
 import Login from './components/Auth/Login';
+import Dashboard from './components/Dashboard';
 
 // import LoadingSpinner from './components/LoadingSpinner';
 
@@ -48,7 +49,7 @@ function App() {
               path="/dashboard" 
               element={
                 <ProtectedRoute>
-                  {/* <Dashboard /> */}
+                  <Dashboard />
                 </ProtectedRoute>
               } 
             />

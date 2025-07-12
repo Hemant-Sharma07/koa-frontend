@@ -30,6 +30,8 @@ export const UserAuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  
+
   // Email/Password Authentication
   const signUp = async (email, password, displayName) => {
     try {
