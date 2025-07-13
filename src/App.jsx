@@ -12,7 +12,9 @@ import Navbar from "./components/Navbar/Navbar";
 import { ProductProvider } from "./context/productContext";
 import ProductManager from "./pages/ProductManager";
 
-// import LoadingSpinner from './components/LoadingSpinner';
+
+import LoadingSpinner from './components/LoadingSpinner';
+import { ToastContainer } from "react-toastify";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -56,7 +58,26 @@ function App() {
             <Route path="/product" element={<ProductManager />} />
 
           </Routes>
+
+
         </div>
+
+
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            style={{
+              fontSize: '14px',
+            }}
+          />
       </Router>
       </ProductProvider>
     </UserAuthProvider>

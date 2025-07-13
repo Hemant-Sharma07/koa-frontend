@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Eye, EyeOff, Phone, Mail, User, Lock } from "lucide-react";
 import { useUserAuth } from "../../context/userAuthContext";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [authMode, setAuthMode] = useState("signin"); // 'signin', 'signup', 'phone'
@@ -53,14 +54,18 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
+
     try {
       if (authMode === "signin") {
         await signIn(formData.email, formData.password);
+       
       } else if (authMode === "signup") {
         await signUp(formData.email, formData.password, formData.displayName);
+        
       }
     } catch (error) {
       console.error("Authentication error:", error);
+      // toast.error(error);
     } finally {
       setIsLoading(false);
     }

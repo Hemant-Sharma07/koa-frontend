@@ -7,12 +7,17 @@ import {
   FiShoppingCart,
   FiUser,
   FiChevronDown,
+  FiSettings,
+  FiLogOut,
 } from "react-icons/fi";
+import { useUserAuth } from "../../context/userAuthContext";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("nuts");
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useUserAuth();
 
   const categories = {
     nuts: [
@@ -233,12 +238,60 @@ const Navbar = () => {
             {/* Right side icons */}
             <div className="flex items-center">
               <div className="hidden lg:flex lg:items-center lg:space-x-6">
-                <Link
-                  to="/login"
-                  className="text-md font-medium text-gray-900 hover:text-orange-500 flex items-center"
-                >
-                  <FiUser size={18} className="mr-1" /> Log In
-                </Link>
+                <div className="relative inline-block">
+                  {!user && (
+                    <Link
+                      to="/login"
+                      className="text-md font-medium text-gray-900 hover:text-orange-500 flex items-center"
+                    >
+                      <FiUser size={18} className="mr-1" /> Log In
+                    </Link>
+                  )}
+
+                  {user && (
+                    <div
+                      className="relative"
+                      onMouseEnter={() => setIsOpen(true)}
+                      onMouseLeave={() => setIsOpen(false)}
+                    >
+                      <button className="text-md font-medium text-gray-900 hover:text-orange-500 flex items-center focus:outline-none">
+                        <FiUser size={18} className="mr-1" />{" "}
+                        {user?.displayName}
+                      </button>
+
+                      {isOpen && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                          <div className="py-1">
+                            <div className="px-4 py-2 border-b border-gray-100">
+                              <p className="text-sm font-medium text-gray-900">
+                                {user.displayName}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {user.email}
+                              </p>
+                            </div>
+
+                            <button
+                              // onClick={handleProfile}
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                            >
+                              <FiSettings size={16} className="mr-2" />
+                              Profile
+                            </button>
+
+                            <button
+                              onClick={logout}
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                            >
+                              <FiLogOut size={16} className="mr-2" />
+                              Logout
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="ml-4 flow-root lg:ml-6">
