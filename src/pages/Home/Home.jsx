@@ -44,7 +44,7 @@ const Home = () => {
         <HeroSlider />
         <div>
           <PageHeader heading="Hello" />
-          <section className="mx-auto w-full flex flex-wrap justify-items-center justify-evenly gap-6 mt-10 mb-5">
+          <section className="mx-auto w-full flex flex-wrap justify-items-center justify-evenly gap-6 mt-10 mb-5 px-3 md:px-0">
             {products.map((product) => (
               <ProductCard
                 key={product.id}

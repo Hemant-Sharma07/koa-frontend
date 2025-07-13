@@ -5,7 +5,6 @@ import {
   Navigate,
 } from "react-router-dom";
 
-// import Dashboard from './components/Dashboard';
 import { UserAuthProvider, useUserAuth } from "./context/userAuthContext";
 import Login from "./components/Auth/Login";
 import Home from "./pages/Home/Home";
@@ -32,7 +31,7 @@ const PublicRoute = ({ children }) => {
     // return <LoadingSpinner />;
   }
 
-  return user ? <Navigate to="/dashboard" /> : children;
+  return user ? <Navigate to="/" /> : children;
 };
 
 function App() {
@@ -49,10 +48,6 @@ function App() {
                   <Login />
                 </PublicRoute>
               }
-            />
-            <Route
-              path="/dashboard"
-              element={<ProtectedRoute>{/* <Dashboard /> */}</ProtectedRoute>}
             />
             <Route path="/" element={<Home />} />
           </Routes>
