@@ -9,6 +9,8 @@ import { UserAuthProvider, useUserAuth } from "./context/userAuthContext";
 import Login from "./components/Auth/Login";
 import Home from "./pages/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
+import { ProductProvider } from "./context/productContext";
+import ProductManager from "./pages/ProductManager";
 
 // import LoadingSpinner from './components/LoadingSpinner';
 
@@ -28,7 +30,7 @@ const PublicRoute = ({ children }) => {
   const { user, loading } = useUserAuth();
 
   if (loading) {
-    // return <LoadingSpinner />;
+    return <LoadingSpinner />;
   }
 
   return user ? <Navigate to="/" /> : children;
@@ -37,6 +39,7 @@ const PublicRoute = ({ children }) => {
 function App() {
   return (
     <UserAuthProvider>
+     <ProductProvider>
       <Router>
         <div className="App">
           <Navbar />
@@ -50,9 +53,12 @@ function App() {
               }
             />
             <Route path="/" element={<Home />} />
+            <Route path="/product" element={<ProductManager />} />
+
           </Routes>
         </div>
       </Router>
+      </ProductProvider>
     </UserAuthProvider>
   );
 }
