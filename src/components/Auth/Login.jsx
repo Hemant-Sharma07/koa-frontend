@@ -30,12 +30,12 @@ const Login = () => {
     clearError 
   } = useUserAuth();
 
-  useEffect(() => {
-    if (authMode === 'phone') {
-      const recaptcha = setUpRecaptcha('recaptcha-container');
-      setRecaptchaVerifier(recaptcha);
-    }
-  }, [authMode]);
+  // useEffect(() => {
+  //   if (authMode === 'phone') {
+  //     const recaptcha = setUpRecaptcha('recaptcha-container');
+  //     setRecaptchaVerifier(recaptcha);
+  //   }
+  // }, [authMode]);
 
   useEffect(() => {
     clearError();
@@ -190,7 +190,11 @@ const Login = () => {
         <div className="bg-white rounded-xl shadow-2xl p-8">
           <div className="text-center">
             <div className="mx-auto h-12 w-12 text-indigo-600">
-              {authMode === 'phone' ? <Phone className="h-full w-full" /> : <Mail className="h-full w-full" />}
+              {
+              authMode === 'phone' ?
+               <Phone 
+              className="h-full w-full" /> 
+              : <Mail className="h-full w-full" />}
             </div>
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
               {authMode === 'signin' ? 'Sign in to your account' : 
@@ -226,7 +230,7 @@ const Login = () => {
             >
               Sign Up
             </button>
-            <button
+            {/* <button
               onClick={() => switchAuthMode('phone')}
               className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
                 authMode === 'phone' 
@@ -235,7 +239,7 @@ const Login = () => {
               }`}
             >
               Phone
-            </button>
+            </button> */}
           </div>
 
           {/* Email/Password Form */}
@@ -342,7 +346,7 @@ const Login = () => {
           )}
 
           {/* Phone Authentication Form */}
-          {authMode === 'phone' && (
+          {/* {authMode === 'phone' && (
             <div className="mt-8 space-y-6">
               <div>
                 <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
@@ -383,7 +387,7 @@ const Login = () => {
                 </button>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* ReCAPTCHA Container */}
           <div id="recaptcha-container"></div>
