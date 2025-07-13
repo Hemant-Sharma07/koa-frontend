@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   FiMenu,
   FiX,
@@ -80,12 +81,13 @@ const Navbar = () => {
           whileHover={{ x: 5 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <a
-            href="#"
+          <Link
+            to={`/products/${item.toLowerCase().replace(/\s+/g, "-")}`}
             className="-m-2 block p-2 text-gray-700 hover:text-orange-500"
+            onClick={() => setMobileMenuOpen(false)}
           >
             {item}
-          </a>
+          </Link>
         </motion.li>
       ))}
     </motion.ul>
@@ -110,7 +112,7 @@ const Navbar = () => {
 
   return (
     <div className=" relative border-b">
-      <header className="relative  max-w-7xl mx-auto">
+      <header className="relative mx-auto sm:px-3">
         <nav aria-label="Top" className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             {/* Left side - mobile menu and logo */}
@@ -129,7 +131,7 @@ const Navbar = () => {
                 className="ml-4 flex lg:ml-0"
                 whileHover={{ scale: 1.05 }}
               >
-                <a href="#" className="flex items-center gap-1 md:gap-4">
+                <Link to="/" className="flex items-center gap-1 md:gap-4">
                   <img
                     src="/KOALogo.jpeg"
                     alt=""
@@ -138,19 +140,19 @@ const Navbar = () => {
                   <p className="text-2xl md:text-3xl font-bold text-orange-500">
                     K<span className="text-black">O</span>A
                   </p>
-                </a>
+                </Link>
               </motion.div>
             </div>
 
             {/* Centered Navigation */}
             <div className="hidden flex-1 lg:flex lg:items-center lg:justify-center ">
               <div className="flex space-x-8 ">
-                <a
-                  href="#"
+                <Link
+                  to="/"
                   className="text-md font-medium text-gray-900 hover:text-orange-500 hover:-translate-y-1 transition-all duration-200"
                 >
                   Home
-                </a>
+                </Link>
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setDesktopMenuOpen(!desktopMenuOpen)}
@@ -190,15 +192,17 @@ const Navbar = () => {
                                 <ul className="space-y-1 md:space-y-2">
                                   {items.map((item) => (
                                     <li key={item}>
-                                      <a
-                                        href="#"
+                                      <Link
+                                        to={`/products/${item
+                                          .toLowerCase()
+                                          .replace(/\s+/g, "-")}`}
                                         onClick={() =>
                                           setDesktopMenuOpen(false)
                                         }
                                         className="text-sm md:text-md text-gray-700 hover:text-orange-500 transition-colors"
                                       >
                                         {item}
-                                      </a>
+                                      </Link>
                                     </li>
                                   ))}
                                 </ul>
@@ -211,44 +215,42 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
 
-                <a
-                  href="#"
+                <Link
+                  to="/about-us"
                   className="text-md font-medium text-gray-900 hover:text-orange-500 hover:-translate-y-1 transition-all"
                 >
                   About Us
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="/contact-us"
                   className="text-md font-medium text-gray-900 hover:text-orange-500 hover:-translate-y-1 transition-all"
                 >
                   Contact Us
-                </a>
+                </Link>
               </div>
             </div>
 
             {/* Right side icons */}
             <div className="flex items-center">
               <div className="hidden lg:flex lg:items-center lg:space-x-6">
-                <a
-                  href="#"
+                <Link
+                  to="/login"
                   className="text-md font-medium text-gray-900 hover:text-orange-500 flex items-center"
                 >
                   <FiUser size={18} className="mr-1" /> Log In
-                </a>
+                </Link>
               </div>
 
               <div className="ml-4 flow-root lg:ml-6">
-                <motion.a
-                  href="#"
-                  className="group -m-2 flex items-center p-2"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <FiShoppingCart className="h-6 w-6 shrink-0 text-gray-500 group-hover:text-orange-500" />
-                  <span className="ml-2 text-sm font-medium text-gray-900 group-hover:text-orange-500">
-                    0
-                  </span>
-                  <span className="sr-only">items in cart</span>
-                </motion.a>
+                <motion.div whileHover={{ scale: 1.1 }}>
+                  <Link to="/cart" className="group -m-2 flex items-center p-2">
+                    <FiShoppingCart className="h-6 w-6 shrink-0 text-gray-500 group-hover:text-orange-500" />
+                    <span className="ml-2 text-sm font-medium text-gray-900 group-hover:text-orange-500">
+                      0
+                    </span>
+                    <span className="sr-only">items in cart</span>
+                  </Link>
+                </motion.div>
               </div>
             </div>
           </div>
@@ -280,7 +282,11 @@ const Navbar = () => {
               <div className="flex h-full flex-col overflow-y-auto pb-12">
                 <div className="flex justify-between">
                   <div className="flex px-4 pb-2 pt-5 justify-start">
-                    <a href="#" className="flex items-center gap-2 md:gap-4">
+                    <Link
+                      to="/"
+                      className="flex items-center gap-2 md:gap-4"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
                       <img
                         src="/KOALogo.jpeg"
                         alt=""
@@ -289,7 +295,7 @@ const Navbar = () => {
                       <p className="text-2xl md:text-3xl font-bold text-orange-500">
                         K<span className="text-black">O</span>A
                       </p>
-                    </a>
+                    </Link>
                   </div>
                   <div className="flex px-4 pb-2 pt-5 justify-end">
                     <button
@@ -337,31 +343,34 @@ const Navbar = () => {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a
-                      href="#"
+                    <Link
+                      to="/about-us"
                       className="-m-2 block p-2 font-medium text-gray-900 hover:text-orange-500"
+                      onClick={() => setMobileMenuOpen(false)}
                     >
                       About Us
-                    </a>
+                    </Link>
                   </div>
                   <div className="flow-root">
-                    <a
-                      href="#"
+                    <Link
+                      to="/contact-us"
                       className="-m-2 block p-2 font-medium text-gray-900 hover:text-orange-500"
+                      onClick={() => setMobileMenuOpen(false)}
                     >
                       Contact Us
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a
-                      href="#"
+                    <Link
+                      to="/login"
                       className="-m-2  p-2 font-medium text-gray-900 hover:text-orange-500 flex items-center"
+                      onClick={() => setMobileMenuOpen(false)}
                     >
                       <FiUser className="mr-2" /> Log In
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
