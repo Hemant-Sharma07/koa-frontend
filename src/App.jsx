@@ -11,6 +11,7 @@ import Home from "./pages/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import { ProductProvider } from "./context/productContext";
 import ProductManager from "./pages/ProductManager";
+import Footer from "./components/footer/Footer";
 
 // import LoadingSpinner from './components/LoadingSpinner';
 
@@ -55,6 +56,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/product" element={<ProductManager />} />
             </Routes>
+            <Footer />
           </div>
         </Router>
       </ProductProvider>
