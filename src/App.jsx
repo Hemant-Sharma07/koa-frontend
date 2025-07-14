@@ -29,9 +29,9 @@ const ProtectedRoute = ({ children }) => {
 const PublicRoute = ({ children }) => {
   const { user, loading } = useUserAuth();
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  // if (loading) {
+  //   return <LoadingSpinner />;
+  // }
 
   return user ? <Navigate to="/" /> : children;
 };
@@ -39,25 +39,24 @@ const PublicRoute = ({ children }) => {
 function App() {
   return (
     <UserAuthProvider>
-     <ProductProvider>
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Routes>
-            <Route
-              path="/login"
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route path="/" element={<Home />} />
-            <Route path="/product" element={<ProductManager />} />
-
-          </Routes>
-        </div>
-      </Router>
+      <ProductProvider>
+        <Router>
+          <div className="App">
+            <Navbar />
+            <Routes>
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route path="/" element={<Home />} />
+              <Route path="/product" element={<ProductManager />} />
+            </Routes>
+          </div>
+        </Router>
       </ProductProvider>
     </UserAuthProvider>
   );
