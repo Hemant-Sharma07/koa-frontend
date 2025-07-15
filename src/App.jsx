@@ -13,9 +13,12 @@ import { ProductProvider } from "./context/productContext";
 import ProductManager from "./pages/ProductManager";
 import Footer from "./components/footer/Footer";
 
-
-import LoadingSpinner from './components/LoadingSpinner';
+import LoadingSpinner from "./components/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
+import AdminRoute from "./router/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLayout from "./layout/AdminLayout";
+import UserLayout from "./layout/UserLayout";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -42,27 +45,23 @@ const PublicRoute = ({ children }) => {
 function App() {
   return (
     <UserAuthProvider>
-     <ProductProvider>
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Routes>
-            <Route
-              path="/login"
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route path="/" element={<Home />} />
-            <Route path="/product" element={<ProductManager />} />
+      <ProductProvider>
+        <Router>
+          <div className="App">
+            <Routes>
+              <Route element={<UserLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+              </Route>
 
-          </Routes>
-
-
-        </div>
-
+              <Route path="/admin" element={<AdminRoute />}>
+                <Route element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="products" element={<ProductManager />} />
+                </Route>
+              </Route>
+            </Routes>
+          </div>
 
           <ToastContainer
             position="top-right"
@@ -76,10 +75,10 @@ function App() {
             pauseOnHover
             theme="light"
             style={{
-              fontSize: '14px',
+              fontSize: "14px",
             }}
           />
-      </Router>
+        </Router>
       </ProductProvider>
     </UserAuthProvider>
   );
