@@ -143,7 +143,7 @@ const OurVision = () => {
                   initial={{ scale: 0.95 }} // Slightly less initial scale
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, duration: 0.3 }} // Faster animation
-                  className="text-3xl md:text-4xl font-bold text-orange-200 mb-2"
+                  className="text-xl md:text-3xl font-bold text-orange-200 mb-2"
                 >
                   {item.number}
                 </motion.div>

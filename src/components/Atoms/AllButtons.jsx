@@ -1,6 +1,6 @@
 const Button = ({ title = "View All", onClick, variant = "filled" }) => {
   let baseClasses =
-    "font-medium shadow px-4 py-3 md:px-5 md:py-3 rounded-md transition-all duration-200";
+    "font-medium shadow px-3 py-2 sm:px-5 sm:py-3 text-sm sm:text-md rounded-md transition-all duration-200";
 
   let variantClasses = "";
 

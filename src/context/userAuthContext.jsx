@@ -13,6 +13,7 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
+import { toast } from "react-toastify";
 
 const UserAuthContext = createContext();
 
@@ -47,10 +48,11 @@ export const UserAuthProvider = ({ children }) => {
           displayName: displayName,
         });
       }
-
+       toast.success('Account Created Successfully');
       return userCredential.user;
     } catch (error) {
       setError(error.message);
+       toast.error(error.message);
       throw error;
     }
   };
@@ -63,9 +65,11 @@ export const UserAuthProvider = ({ children }) => {
         email,
         password
       );
+       toast.success('Login Successfully');
       return userCredential.user;
     } catch (error) {
       setError(error.message);
+       toast.error(error.message);
       throw error;
     }
   };
@@ -126,8 +130,10 @@ export const UserAuthProvider = ({ children }) => {
     try {
       setError(null);
       await signOut(auth);
+      toast.success("Logout successfully")
     } catch (error) {
       setError(error.message);
+       toast.error(error.message)
       throw error;
     }
   };

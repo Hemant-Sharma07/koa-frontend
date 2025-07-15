@@ -7,13 +7,7 @@ const ProductManager = () => {
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
   const [formData, setFormData] = useState({
-    title: 'Test Product',
-    description: 'This is a test product with Cloudinary image',
-    category: 'Electronics',
-    oldPrice: '100',
-    newPrice: '80',
-    stock: '50',
-    inHotDeal: true
+   
   });
 
   const handleImageChange = (e) => {

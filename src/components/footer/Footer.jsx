@@ -25,11 +25,41 @@ const Footer = () => {
         },
       ],
     },
+    // {
+    //   title: "Follow Us",
+    //   links: [
+    //     { name: "GitHub", url: "#", icon: <FaGithub className="mr-2" /> },
+    //     { name: "Instagram", url: "#", icon: <FaInstagram className="mr-2" /> },
+    //   ],
+    // },
     {
-      title: "Follow Us",
+      title: "Legal",
       links: [
-        { name: "GitHub", url: "#", icon: <FaGithub className="mr-2" /> },
-        { name: "Instagram", url: "#", icon: <FaInstagram className="mr-2" /> },
+        {
+          name: "Privacy Policy",
+          url: "#",
+          icon: <FaShieldAlt className="mr-2" />,
+        },
+        {
+          name: "Terms & Conditions",
+          url: "#",
+          icon: <FaFileContract className="mr-2" />,
+        },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        {
+          name: "Privacy Policy",
+          url: "#",
+          icon: <FaShieldAlt className="mr-2" />,
+        },
+        {
+          name: "Terms & Conditions",
+          url: "#",
+          icon: <FaFileContract className="mr-2" />,
+        },
       ],
     },
     {
@@ -107,19 +137,19 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 text-white">
+    <footer className="bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 text-white ">
       <motion.div
-        className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8"
+        className="w-full p-4 md:px-12 md:py-10 mx-auto"
         initial="hidden"
         whileInView="visible"
         viewport={{ always: true }} // This ensures animation only happens once
         variants={containerVariants}
       >
         <div className="md:flex md:justify-between">
-          <motion.div className="mb-6 md:mb-0" variants={itemVariants}>
+          <motion.div className="mb-10 md:mb-0" variants={itemVariants}>
             <motion.a
               href="#"
-              className="r"
+              className="relative"
               whileHover={hoverEffect}
               whileTap={tapEffect}
             >
@@ -143,7 +173,7 @@ const Footer = () => {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3"
+            className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-4"
             variants={containerVariants}
           >
             {footerLinks.map((section, index) => (

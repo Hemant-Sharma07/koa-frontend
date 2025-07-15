@@ -4,6 +4,7 @@ import ProductCard from "../../components/Atoms/ProductCard";
 import PageHeader from "../../components/Atoms/PageHeader";
 import OurVision from "../../components/OurVision/OurVision";
 import { useProduct } from "../../context/productContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -26,7 +27,6 @@ const Home = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -35,7 +35,7 @@ const Home = () => {
   };
 
   if (loading) {
-    return <div>Loading products...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -48,17 +48,21 @@ const Home = () => {
         <HeroSlider />
         <div>
           <PageHeader heading="Delicacies" onClick={handleViewAll} />
-          <section className="mx-auto w-full flex flex-wrap justify-items-center justify-evenly gap-6 mt-10 mb-5 px-3 md:px-0">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard
-                key={product._id} // Assuming your product has _id from MongoDB
-                id={product._id}
-                imageUrl={product.image}
-                brand={product.category}
-                productName={product.title}
-                currentPrice={product.newPrice}
-                originalPrice={product.oldPrice}
-              />
+          <section className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center">
+            {products.slice(0, 8).map((product) => (
+              <div
+                key={product._id}
+                className="w-full max-w-[250px] sm:max-w-none"
+              >
+                <ProductCard
+                  id={product._id}
+                  imageUrl={product.image}
+                  brand={product.category}
+                  productName={product.title}
+                  currentPrice={product.newPrice}
+                  originalPrice={product.oldPrice}
+                />
+              </div>
             ))}
           </section>
         </div>
@@ -67,33 +71,41 @@ const Home = () => {
         </div>
         <div>
           <PageHeader heading="Featured Collection" onClick={handleViewAll} />
-          <section className="mx-auto w-full flex flex-wrap justify-items-center justify-evenly gap-6 mt-10 mb-5 px-3 md:px-0">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard
-                key={product._id} // Assuming your product has _id from MongoDB
-                id={product._id}
-                imageUrl={product.image}
-                brand={product.category}
-                productName={product.title}
-                currentPrice={product.newPrice}
-                originalPrice={product.oldPrice}
-              />
+          <section className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center">
+            {products.slice(0, 8).map((product) => (
+              <div
+                key={product._id}
+                className="w-full max-w-[250px] sm:max-w-none"
+              >
+                <ProductCard
+                  id={product._id}
+                  imageUrl={product.image}
+                  brand={product.category}
+                  productName={product.title}
+                  currentPrice={product.newPrice}
+                  originalPrice={product.oldPrice}
+                />
+              </div>
             ))}
           </section>
         </div>
         <div>
           <PageHeader heading="Ajfan Specialties" onClick={handleViewAll} />
-          <section className="mx-auto w-full flex flex-wrap justify-items-center justify-evenly gap-6 mt-10 mb-5 px-3 md:px-0">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard
-                key={product._id} // Assuming your product has _id from MongoDB
-                id={product._id}
-                imageUrl={product.image}
-                brand={product.category}
-                productName={product.title}
-                currentPrice={product.newPrice}
-                originalPrice={product.oldPrice}
-              />
+          <section className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center">
+            {products.slice(0, 8).map((product) => (
+              <div
+                key={product._id}
+                className="w-full max-w-[250px] sm:max-w-none"
+              >
+                <ProductCard
+                  id={product._id}
+                  imageUrl={product.image}
+                  brand={product.category}
+                  productName={product.title}
+                  currentPrice={product.newPrice}
+                  originalPrice={product.oldPrice}
+                />
+              </div>
             ))}
           </section>
         </div>
