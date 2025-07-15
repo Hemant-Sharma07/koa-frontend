@@ -26,7 +26,7 @@ const HeroSlider = () => {
   }, [current]);
 
   return (
-    <div className="relative w-full overflow-hidden p-4 sm:6 md:p-8">
+    <div className="relative w-full overflow-hidden px-4 sm:px-6 md:px-8">
       <div className="relative h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] transition-all duration-700 ease-in-out">
         {images.map((src, index) => (
           <img
