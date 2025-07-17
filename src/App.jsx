@@ -8,13 +8,15 @@ import {
 import { UserAuthProvider, useUserAuth } from "./context/userAuthContext";
 import Login from "./components/Auth/Login";
 import Home from "./pages/Home/Home";
-import Navbar from "./components/Navbar/Navbar";
 import { ProductProvider } from "./context/productContext";
 import ProductManager from "./pages/ProductManager";
-import Footer from "./components/footer/Footer";
 
-import LoadingSpinner from "./components/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
+import AdminRoute from "./router/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLayout from "./layout/AdminLayout";
+import UserLayout from "./layout/UserLayout";
+import ShoppingCart from "./pages/Cart/ShoppingCart";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -44,21 +46,20 @@ function App() {
       <ProductProvider>
         <Router>
           <div className="App">
-            <Navbar />
             <Routes>
-              <Route
-                path="/login"
-                element={
-                  <PublicRoute>
-                    <Login />
-                  </PublicRoute>
-                }
-              />
-              <Route path="/" element={<Home />} />
-              <Route path="/product" element={<ProductManager />} />
-            </Routes>
+              <Route element={<UserLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/cart" element={<ShoppingCart />} />
+              </Route>
 
-            <Footer />
+              <Route path="/admin" element={<AdminRoute />}>
+                <Route element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="products" element={<ProductManager />} />
+                </Route>
+              </Route>
+            </Routes>
           </div>
 
           <ToastContainer

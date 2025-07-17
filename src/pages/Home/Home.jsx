@@ -48,7 +48,7 @@ const Home = () => {
         <HeroSlider />
         <div>
           <PageHeader heading="Delicacies" onClick={handleViewAll} />
-          <section className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center">
+          <section className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-6 justify-items-center">
             {products.slice(0, 8).map((product) => (
               <div
                 key={product._id}

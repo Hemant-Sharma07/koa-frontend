@@ -1,5 +1,7 @@
 // contexts/UserAuthContext.jsx
 import { createContext, useContext, useState, useEffect } from "react";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -12,7 +14,7 @@ import {
   PhoneAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+import { auth,db } from "../firebase/firebaseConfig";
 import { toast } from "react-toastify";
 
 const UserAuthContext = createContext();
@@ -29,50 +31,63 @@ export const UserAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [role,setRole]= useState(null)
 
   
 
   // Email/Password Authentication
-  const signUp = async (email, password, displayName) => {
-    try {
-      setError(null);
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+  const signUp = async (email, password, displayName, role = "user") => {
+  try {
+    setError(null);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-      // Update user profile with display name
-      if (displayName) {
-        await updateProfile(userCredential.user, {
-          displayName: displayName,
-        });
-      }
-       toast.success('Account Created Successfully');
-      return userCredential.user;
-    } catch (error) {
-      setError(error.message);
-       toast.error(error.message);
-      throw error;
+    // Update displayName in Firebase Auth
+    if (displayName) {
+      await updateProfile(user, { displayName });
     }
-  };
 
-  const signIn = async (email, password) => {
-    try {
-      setError(null);
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-       toast.success('Login Successfully');
-      return userCredential.user;
-    } catch (error) {
-      setError(error.message);
-       toast.error(error.message);
-      throw error;
+    // Add role and other info to Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      email,
+      displayName,
+      role, // Save role
+      createdAt: new Date(),
+    });
+
+    toast.success("Account Created Successfully");
+    return user;
+  } catch (error) {
+    setError(error.message);
+    toast.error(error.message);
+    throw error;
+  }
+};
+
+
+ const signIn = async (email, password) => {
+  try {
+    setError(null);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Fetch role from Firestore
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    console.log(userDoc)
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      console.log("User Role:", userData.role); // You can store this in context or local state
     }
-  };
+
+    toast.success("Login Successfully");
+    return user;
+  } catch (error) {
+    setError(error.message);
+    toast.error(error.message);
+    throw error;
+  }
+};
+
 
   // Phone Authentication
   const setUpRecaptcha = (elementId) => {

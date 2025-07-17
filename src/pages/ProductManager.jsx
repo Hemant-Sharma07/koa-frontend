@@ -121,25 +121,39 @@ const ProductManager = () => {
           <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
             Category:
           </label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleInputChange}
-            required
-            style={{
-              width: '100%',
-              padding: '8px',
-              border: '1px solid #ccc',
-              borderRadius: '4px'
-            }}
-          >
-            <option value="">Select Category</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Books">Books</option>
-            <option value="Home">Home</option>
-            <option value="Sports">Sports</option>
-          </select>
+       <select
+  name="product"
+  value={formData.product}
+  onChange={handleInputChange}
+  required
+  style={{
+    width: '100%',
+    padding: '8px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+  }}
+>
+  <option value="">Select</option>
+  <option value="Almonds">Almonds</option>
+  <option value="Cashews">Cashews</option>
+  <option value="Walnut">Walnut</option>
+  <option value="Raisins">Raisins</option>
+  <option value="Pistachio">Pistachio</option>
+  <option value="Mixed Fruits">Mixed Fruits</option>
+  <option value="Prunes">Prunes</option>
+  <option value="Dried Mango">Dried Mango</option>
+  <option value="Dried Kiwi">Dried Kiwi</option>
+  <option value="Pine Nuts Without Shell">Pine Nuts Without Shell</option>
+  <option value="Dry Apricots">Dry Apricots</option>
+  <option value="Apricot Turkel">Apricot Turkel</option>
+  <option value="Makhana">Makhana</option>
+  <option value="Hazelnuts">Hazelnuts</option>
+  <option value="Brazil Nuts">Brazil Nuts</option>
+  <option value="Pecan Nuts">Pecan Nuts</option>
+  <option value="Anjeer">Anjeer</option>
+  <option value="Macadamia Nuts">Macadamia Nuts</option>
+</select>
+
         </div>
 
         <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
