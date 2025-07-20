@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { FiShoppingBag } from "react-icons/fi";
 
+const formatInr = (value) =>
+  "₹" + Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+
 const ProductCard = ({
   id,
   imageUrl,
@@ -31,10 +34,12 @@ const ProductCard = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <p className="text-lg font-semibold text-gray-900">
-                ${currentPrice}
+                {formatInr(currentPrice)}
               </p>
               {originalPrice && (
-                <del className="text-sm text-gray-500">${originalPrice}</del>
+                <del className="text-sm text-gray-500">
+                  {formatInr(originalPrice)}
+                </del>
               )}
             </div>
             <button

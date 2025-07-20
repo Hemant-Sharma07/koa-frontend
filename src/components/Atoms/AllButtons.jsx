@@ -30,7 +30,7 @@ const Button = ({ title = "View All", onClick, variant = "filled" }) => {
 const TransparentBtn = ({ title = "Learn More", onClick }) => {
   return (
     <button
-      className="border-2 border-white text-white px-4 py-3 md:px-5 md:py-3 rounded-md font-semibold hover:bg-white hover:text-orange-700 transition-all duration-200  hover:-translate-y-1"
+      className="border-2 border-white text-white px-4 py-1 md:px-5 md:py-2 rounded-md font-semibold hover:bg-white hover:text-orange-700 transition-all duration-200  hover:-translate-y-1"
       onClick={onClick}
     >
       {title}

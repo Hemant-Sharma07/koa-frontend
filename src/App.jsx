@@ -17,6 +17,10 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLayout from "./layout/AdminLayout";
 import UserLayout from "./layout/UserLayout";
 import ShoppingCart from "./pages/Cart/ShoppingCart";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
+import AboutUs from "./pages/about-us/AboutUs";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -41,6 +45,12 @@ const PublicRoute = ({ children }) => {
 };
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 800, // animation duration
+      once: true, // only animate once
+    });
+  }, []);
   return (
     <UserAuthProvider>
       <ProductProvider>
@@ -50,7 +60,15 @@ function App() {
               <Route element={<UserLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/cart" element={<ShoppingCart />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route
+                  path="/cart"
+                  element={
+                    // <ProtectedRoute>
+                    <ShoppingCart />
+                    // </ProtectedRoute>
+                  }
+                />
               </Route>
 
               <Route path="/admin" element={<AdminRoute />}>

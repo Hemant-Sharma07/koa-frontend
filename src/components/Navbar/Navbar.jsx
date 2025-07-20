@@ -116,7 +116,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className=" relative border-b">
+    <div className=" relative border-b z-[9999]" data-aos="fade-down">
       <header className="relative mx-auto sm:px-3">
         <nav aria-label="Top" className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
@@ -142,7 +142,7 @@ const Navbar = () => {
                     alt=""
                     className="h-6 w-6 md:h-8 md:w-8"
                   />
-                  <p className="text-2xl md:text-3xl font-bold text-orange-500">
+                  <p className="text-2xl md:text-3xl font-bold text-orange-600 tracking-wider">
                     K<span className="text-black">O</span>A
                   </p>
                 </Link>
@@ -315,7 +315,7 @@ const Navbar = () => {
         {mobileMenuOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-40 bg-black/50"
+              className="fixed inset-0 z-[9999] bg-black/50"
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -325,7 +325,7 @@ const Navbar = () => {
             />
 
             <motion.div
-              className="fixed inset-y-0 left-0 z-50 w-full max-w-xs bg-white shadow-xl"
+              className="fixed inset-y-0 left-0 z-[9999] w-full max-w-xs bg-white shadow-xl"
               initial="hidden"
               animate="visible"
               exit="exit"

@@ -1,42 +1,46 @@
 import React from "react";
 import QuantityCounter from "./QuantityCounter";
-import { Link } from "react-router-dom";
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, onChangeQuantity, onRemove }) => {
+  const formatInr = (value) =>
+    "₹" + Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 });
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div
+      className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+      data-aos="fade-right"
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Product Image */}
-        <Link to="#" className="flex justify-center sm:justify-start sm:w-1/4">
+        <div className="flex justify-center sm:justify-start sm:w-1/4">
           <img
             className="h-32 w-32 object-contain"
             src={item.imageLight}
             alt={item.name}
           />
-        </Link>
+        </div>
 
-        {/* Product Info - Middle Section */}
+        {/* Product Info */}
         <div className="flex-1 space-y-2 sm:space-y-3">
-          <Link
-            to="#"
-            className="text-sm font-medium text-gray-900 hover:underline line-clamp-2 sm:text-base"
-          >
+          <div className="text-sm font-medium text-gray-900 sm:text-base line-clamp-2">
             {item.name}
-          </Link>
-
-          {/* Mobile Price (hidden on larger screens) */}
+          </div>
+          {/* Mobile Price and Quantity */}
           <div className="flex justify-between sm:hidden">
             <div className="text-sm font-bold text-gray-900">
-              ${(item.price * item.quantity).toLocaleString()}
+              {formatInr(item.price * item.quantity)}
             </div>
-            <QuantityCounter quantity={item.quantity} id={item.id} />
+            <QuantityCounter
+              quantity={item.quantity}
+              id={item.id}
+              onChange={onChangeQuantity}
+            />
           </div>
-
-          {/* Action Buttons */}
+          {/* Remove Button */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               className="inline-flex items-center text-xs font-medium text-red-600 hover:underline sm:text-sm"
+              onClick={() => onRemove(item.id)}
             >
               <svg
                 className="mr-1 h-4 w-4 sm:h-5 sm:w-5"
@@ -60,16 +64,19 @@ const CartItem = ({ item }) => {
           </div>
         </div>
 
-        {/* Desktop Price and Quantity (hidden on mobile) */}
+        {/* Desktop Price and Quantity */}
         <div className="hidden items-center justify-between sm:flex sm:w-1/4 sm:flex-col sm:items-end sm:gap-4">
           <div className="text-base font-bold text-gray-900">
-            ${(item.price * item.quantity).toLocaleString()}
+            {formatInr(item.price * item.quantity)}
           </div>
-          <QuantityCounter quantity={item.quantity} id={item.id} />
+          <QuantityCounter
+            quantity={item.quantity}
+            id={item.id}
+            onChange={onChangeQuantity}
+          />
         </div>
       </div>
     </div>
   );
 };
-
 export default CartItem;
