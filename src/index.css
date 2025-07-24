@@ -1,3 +1,70 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  /* background: url("/NutsBG1.webp") center/cover no-repeat fixed; */
+  /* background-color: rgba(255, 222, 124, 0.35); */
+}
+
+.customBtn {
+  --color: rgb(246, 110, 6);
+  font-family: inherit;
+  display: inline-block;
+  width: 6em;
+  height: 2.6em;
+  line-height: 2.5em;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 17px;
+  z-index: 1;
+  color: white; /* Orange text */
+  border: 2px solid var(--color); /* Orange border */
+  border-radius: 6px;
+  position: relative;
+  background: var(--color);
+  transition: color 0.3s ease;
+}
+
+.customBtn::before {
+  content: "";
+  position: absolute;
+  background: white; /* Orange background circle */
+  width: 150px;
+  height: 200px;
+  top: 100%;
+  left: 100%;
+  z-index: -1;
+  border-radius: 50%;
+  transition: 0.3s all;
+}
+
+.customBtn:hover {
+  color: var(--color); /* Text turns black on hover */
+}
+
+.customBtn:hover::before {
+  top: -30px;
+  left: -30px;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -60%) scale(1.1) rotate(10deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+  }
+  75% {
+    transform: translate(-50%, -40%) scale(1.05) rotate(-10deg);
+  }
+}
+
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+}
