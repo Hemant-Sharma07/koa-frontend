@@ -116,7 +116,7 @@ const OurVision = () => {
               </motion.p>
             </motion.div>
 
-            <motion.div
+            {/* <motion.div
               variants={container}
               className="flex flex-wrap gap-4 pt-4"
             >
@@ -126,7 +126,7 @@ const OurVision = () => {
               <motion.div variants={item}>
                 <TransparentBtn />
               </motion.div>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* Right Stats Grid */}

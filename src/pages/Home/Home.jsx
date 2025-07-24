@@ -72,7 +72,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="mx-auto px-3 flex flex-col gap-5 md:gap-10 py-5 md:py-10">
+      <div className="mx-auto px-3 flex flex-col gap-5 md:gap-10 py-5 md:py-10 -z-50">
         <HeroSlider />
         <div>
           <PageHeader heading="Delicacies" onClick={handleViewAll} />

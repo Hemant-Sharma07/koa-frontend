@@ -11,6 +11,7 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import { useUserAuth } from "../../context/userAuthContext";
+import { useCart } from "../../context/CartContext"; // <-- Add this
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,6 +19,10 @@ const Navbar = () => {
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useUserAuth();
+
+  // FIX 1: Use cart item count for icon
+  const { cartItems } = useCart();
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const categories = {
     nuts: [
@@ -60,14 +65,12 @@ const Navbar = () => {
 
   const dropdownRef = useRef(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDesktopMenuOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -116,7 +119,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className=" relative border-b z-[9999]" data-aos="fade-down">
+    <div className="relative border-b z-[9999]" data-aos="fade-down">
       <header className="relative mx-auto sm:px-3">
         <nav aria-label="Top" className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
@@ -130,7 +133,6 @@ const Navbar = () => {
                 <span className="sr-only">Open menu</span>
                 <FiMenu className="h-6 w-6 text-orange-600" />
               </button>
-
               {/* Logo */}
               <motion.div
                 className="ml-4 flex lg:ml-0"
@@ -170,7 +172,6 @@ const Navbar = () => {
                       }`}
                     />
                   </button>
-
                   <AnimatePresence>
                     {desktopMenuOpen && (
                       <motion.div
@@ -258,7 +259,6 @@ const Navbar = () => {
                         <FiUser size={18} className="mr-1" />{" "}
                         {user?.displayName}
                       </button>
-
                       {isOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                           <div className="py-1">
@@ -270,7 +270,6 @@ const Navbar = () => {
                                 {user.email}
                               </p>
                             </div>
-
                             <button
                               // onClick={handleProfile}
                               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
@@ -278,7 +277,6 @@ const Navbar = () => {
                               <FiSettings size={16} className="mr-2" />
                               Profile
                             </button>
-
                             <button
                               onClick={logout}
                               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
@@ -298,8 +296,14 @@ const Navbar = () => {
                 <motion.div whileHover={{ scale: 1.1 }}>
                   <Link to="/cart" className="group -m-2 flex items-center p-2">
                     <FiShoppingCart className="h-6 w-6 shrink-0 text-gray-500 group-hover:text-orange-500" />
-                    <span className="ml-2 text-sm font-medium text-gray-900 group-hover:text-orange-500">
-                      0
+                    <span
+                      className={`ml-2 text-sm font-medium ${
+                        cartCount > 0
+                          ? "bg-orange-600 text-white px-2 py-0.5 rounded-full"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      {cartCount}
                     </span>
                     <span className="sr-only">items in cart</span>
                   </Link>
@@ -315,7 +319,7 @@ const Navbar = () => {
         {mobileMenuOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-[9999] bg-black/50"
+              className="fixed inset-0 z-[9999] bg-black/50 h-full"
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -332,7 +336,7 @@ const Navbar = () => {
               variants={mobileMenuVariants}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
             >
-              <div className="flex h-full flex-col overflow-y-auto pb-12">
+              <div className="flex h-full flex-col overflow-y-auto pb-12 z-50">
                 <div className="flex justify-between">
                   <div className="flex px-4 pb-2 pt-5 justify-start">
                     <Link
@@ -382,6 +386,7 @@ const Navbar = () => {
                     </div>
                   </div>
 
+                  {/* Show product category links (like tabs) */}
                   <motion.div
                     className="space-y-6 px-4 pb-8 pt-6"
                     key={activeTab}
@@ -394,7 +399,8 @@ const Navbar = () => {
                   </motion.div>
                 </div>
 
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                {/* FIX 2: Add About Us, Contact Us, Login links outside product tabs */}
+                <div className="space-y-6 border-t border-gray-200 px-4 py-3">
                   <div className="flow-root">
                     <Link
                       to="/about-us"
@@ -413,16 +419,26 @@ const Navbar = () => {
                       Contact Us
                     </Link>
                   </div>
-                </div>
-
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
                     <Link
                       to="/login"
-                      className="-m-2  p-2 font-medium text-gray-900 hover:text-orange-500 flex items-center"
+                      className="-m-2 block p-2 font-medium text-gray-900 hover:text-orange-500 flex items-center"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <FiUser className="mr-2" /> Log In
+                    </Link>
+                  </div>
+                  <div className="flow-root">
+                    <Link
+                      to="/cart"
+                      className="-m-2 block p-2 font-medium text-gray-900 hover:text-orange-500 flex items-center"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <FiShoppingCart className="mr-2" />
+                      Cart{" "}
+                      <span className="ml-2 text-orange-600 font-semibold">
+                        {cartCount}
+                      </span>
                     </Link>
                   </div>
                 </div>

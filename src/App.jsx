@@ -21,6 +21,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import AboutUs from "./pages/about-us/AboutUs";
+import ContactUs from "./pages/contact-us/ContactUs";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -61,6 +62,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/contact-us" element={<ContactUs />} />
                 <Route
                   path="/cart"
                   element={
