@@ -28,10 +28,13 @@ export default function AboutUs() {
     <div className="mx-auto py-6 px-4 sm:px-10 text-justify">
       {/* Intro */}
       <section>
-        <h1 className="text-xl md:text-3xl font-bold text-orange-600 mb-4 text-center md:mb-10">
+        <h1
+          className="text-xl md:text-3xl font-bold text-orange-600 mb-4 text-center md:mb-10"
+          data-aos="fade-down"
+        >
           About Us
         </h1>
-        <p className="text-gray-700 mb-6 md:text-lg">
+        <p className="text-gray-700 mb-6 md:text-lg" data-aos="fade-zoom-in">
           Welcome to{" "}
           <span className="font-semibold text-orange-600">KOA Dryfruits</span> —
           your destination for premium nuts, dried fruits, seeds, and healthy
@@ -41,7 +44,7 @@ export default function AboutUs() {
       </section>
 
       {/* Our Story */}
-      <section className="mb-8">
+      <section className="mb-8" data-aos="fade-zoom-in">
         <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
           Our Vision
         </h2>
@@ -52,7 +55,7 @@ export default function AboutUs() {
           finest quality, customer satisfaction and sustainable growth
         </p>
       </section>
-      <section className="mb-8">
+      <section className="mb-8" data-aos="fade-zoom-in">
         <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
           Straight from nature/Origin
         </h2>
@@ -96,7 +99,7 @@ export default function AboutUs() {
       </section>
 
       {/* Table */}
-      <section className="mb-10 ">
+      <section className="mb-10 " data-aos="fade-right">
         <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
           Why Choose KOA Dryfruits?
         </h2>
@@ -138,7 +141,7 @@ export default function AboutUs() {
       </section>
 
       {/* Product highlights */}
-      <section className="mb-12">
+      <section className="mb-12" data-aos="fade-right">
         <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-4">
           Meet Our Healthy Delights
         </h2>
@@ -164,7 +167,7 @@ export default function AboutUs() {
       </section>
 
       {/* Culture and contact */}
-      <section className="mb-6">
+      <section className="mb-6" data-aos="fade-zoom-in">
         <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
           Community, Tradition, and Innovation
         </h2>

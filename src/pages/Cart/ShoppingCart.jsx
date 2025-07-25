@@ -36,7 +36,7 @@ const ShoppingCart = () => {
   const total = subtotal + pickupFee + tax;
 
   return (
-    <section className="mx-auto h-screen bg-white py-5 md:py-10 px-3 sm:px-10">
+    <section className="mx-auto md:h-screen bg-white py-5 md:py-10 px-3 sm:px-10">
       {/* ...rest of your code remains the same */}
       <div className="px-4 sm:px-2">
         <h2
