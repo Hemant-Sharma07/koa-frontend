@@ -11,7 +11,8 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import { useUserAuth } from "../../context/userAuthContext";
-import { useCart } from "../../context/CartContext"; // <-- Add this
+import { useCart } from "../../context/CartContext";
+import useScrollLock from "../../hooks/useScrollLock";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,6 +76,8 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useScrollLock(mobileMenuOpen || desktopMenuOpen);
+
   const renderCategoryList = (items) => (
     <motion.ul
       className="mt-6 flex flex-col space-y-4"
@@ -119,7 +122,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="relative border-b z-[9999]" data-aos="fade-down">
+    <div className="relative border-b z-50" data-aos="fade-down">
       <header className="relative mx-auto sm:px-3">
         <nav aria-label="Top" className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
@@ -319,7 +322,7 @@ const Navbar = () => {
         {mobileMenuOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-[9999] bg-black/50 h-full"
+              className="fixed inset-0 z-50 bg-black/50 h-screen"
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -329,14 +332,14 @@ const Navbar = () => {
             />
 
             <motion.div
-              className="fixed inset-y-0 left-0 z-[9999] w-full max-w-xs bg-white shadow-xl"
+              className="fixed inset-y-0 left-0 z-50 w-full max-w-xs bg-white shadow-xl"
               initial="hidden"
               animate="visible"
               exit="exit"
               variants={mobileMenuVariants}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
             >
-              <div className="flex h-full flex-col overflow-y-auto pb-12 z-50">
+              <div className="flex h-screen flex-col overflow-y-auto pb-12 z-50 bg-white">
                 <div className="flex justify-between">
                   <div className="flex px-4 pb-2 pt-5 justify-start">
                     <Link
@@ -428,7 +431,7 @@ const Navbar = () => {
                       <FiUser className="mr-2" /> Log In
                     </Link>
                   </div>
-                  <div className="flow-root">
+                  {/* <div className="flow-root">
                     <Link
                       to="/cart"
                       className="-m-2 block p-2 font-medium text-gray-900 hover:text-orange-500 flex items-center"
@@ -440,7 +443,7 @@ const Navbar = () => {
                         {cartCount}
                       </span>
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </motion.div>

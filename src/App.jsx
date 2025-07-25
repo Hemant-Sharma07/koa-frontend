@@ -11,6 +11,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, lazy, Suspense } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
+import ProductOverview from "./components/Atoms/ProductOverview";
 
 // Lazy-loaded components
 const Login = lazy(() => import("./components/Auth/Login"));
@@ -46,7 +47,7 @@ function App() {
     <UserAuthProvider>
       <ProductProvider>
         <Router>
-          <div className="App">
+          <div className="App overflow-hidden">
             <Suspense
               fallback={
                 <div className="text-center mt-10">
@@ -60,7 +61,18 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/about-us" element={<AboutUs />} />
                   <Route path="/contact-us" element={<ContactUs />} />
-                  <Route path="/cart" element={<ShoppingCart />} />
+                  <Route
+                    path="/cart"
+                    element={
+                      // <ProtectedRoute>
+                      <ShoppingCart />
+                      // </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/product-overview/:id"
+                    element={<ProductOverview />}
+                  />
                 </Route>
 
                 <Route path="/admin" element={<AdminRoute />}>
