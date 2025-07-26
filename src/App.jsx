@@ -12,6 +12,7 @@ import "aos/dist/aos.css";
 import { useEffect, lazy, Suspense } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ProductOverview from "./components/Atoms/ProductOverview";
+import NotFound from "./components/Atoms/NotFound";
 
 // Lazy-loaded components
 const Login = lazy(() => import("./components/Auth/Login"));
@@ -73,6 +74,7 @@ function App() {
                     path="/product-overview/:id"
                     element={<ProductOverview />}
                   />
+                  <Route path="*" element={<NotFound />} />
                 </Route>
 
                 <Route path="/admin" element={<AdminRoute />}>
