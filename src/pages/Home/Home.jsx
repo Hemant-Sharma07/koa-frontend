@@ -116,29 +116,31 @@ const Home = () => {
             className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center"
             data-aos="fade-left"
           >
-            {products.slice(0, 8).map((product, index) => (
-              <div
-                key={product._id || index}
-                className="w-full max-w-[250px] sm:max-w-none"
-              >
-                <ProductCard
-                  id={product._id || index}
-                  imageUrl={product.image}
-                  brand={product.category}
-                  productName={product.title}
-                  currentPrice={product.newPrice}
-                  originalPrice={product.oldPrice}
-                  onAddToCart={() =>
-                    addToCart({
-                      id: product._id,
-                      name: product.title,
-                      price: product.newPrice,
-                      imageLight: product.image,
-                    })
-                  }
-                />
-              </div>
-            ))}
+            {products.slice(0, 8).map((product) => {
+              const uid = product.id || product._id;
+              return (
+                <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
+                  <ProductCard
+                    id={uid}
+                    key={uid}
+                    imageUrl={product.image}
+                    brand={product.category}
+                    productName={product.title}
+                    currentPrice={product.newPrice}
+                    originalPrice={product.oldPrice}
+                    onAddToCart={() =>
+                      addToCart({
+                        id: uid,
+                        name: product.title,
+                        price: product.newPrice,
+                        oldPrice: product.oldPrice,
+                        imageLight: product.image,
+                      })
+                    }
+                  />
+                </div>
+              );
+            })}
           </section>
         </div>
         <div>
@@ -147,29 +149,31 @@ const Home = () => {
             className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center"
             data-aos="fade-right"
           >
-            {products.slice(0, 8).map((product, index) => (
-              <div
-                key={product._id || index}
-                className="w-full max-w-[250px] sm:max-w-none"
-              >
-                <ProductCard
-                  id={product._id}
-                  imageUrl={product.image}
-                  brand={product.category}
-                  productName={product.title}
-                  currentPrice={product.newPrice}
-                  originalPrice={product.oldPrice}
-                  onAddToCart={() =>
-                    addToCart({
-                      id: product._id,
-                      name: product.title,
-                      price: product.newPrice,
-                      imageLight: product.image,
-                    })
-                  }
-                />
-              </div>
-            ))}
+            {products.slice(0, 8).map((product) => {
+              const uid = product.id || product._id;
+              return (
+                <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
+                  <ProductCard
+                    id={uid}
+                    key={uid}
+                    imageUrl={product.image}
+                    brand={product.category}
+                    productName={product.title}
+                    currentPrice={product.newPrice}
+                    originalPrice={product.oldPrice}
+                    onAddToCart={() =>
+                      addToCart({
+                        id: uid,
+                        name: product.title,
+                        price: product.newPrice,
+                        oldPrice: product.oldPrice,
+                        imageLight: product.image,
+                      })
+                    }
+                  />
+                </div>
+              );
+            })}
           </section>
           {/* <div className="px-3 md:px-9 " data-aos="fade-right">
             <div className="mb-12">

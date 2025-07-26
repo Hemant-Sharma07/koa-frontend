@@ -65,6 +65,114 @@ body {
   }
 }
 
+/* page not found */
+
+.page_404 {
+  padding: 40px 0;
+  background: #fff;
+  font-family: "Arvo", serif;
+  height: 100vh;
+}
+
+.four_zero_four_bg {
+  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.four_zero_four_bg h1 {
+  font-size: 6rem;
+  margin: 0;
+}
+
+.four_zero_four_bg h3 {
+  font-size: 2.5rem;
+}
+
+/* Content box */
+.contant_box_404 {
+  margin-top: -60px;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.link_404 {
+  color: #fff !important;
+  padding: 10px 20px;
+  background: #ea580c;
+  margin: 20px 0;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.link_404:hover,
+.link_404:focus {
+  background: #bb4f11;
+}
+
+/* Bootstrap col fallbacks for mobile stacking */
+.col-sm-12,
+.col-sm-10,
+.col-sm-offset-1 {
+  width: 100%;
+  float: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 900px) {
+  .four_zero_four_bg h1 {
+    font-size: 4.5rem;
+  }
+  .four_zero_four_bg {
+    height: 220px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page_404 {
+    padding: 24px 0;
+  }
+  .four_zero_four_bg {
+    height: 150px;
+  }
+  .four_zero_four_bg h1 {
+    font-size: 2.3rem;
+  }
+  .four_zero_four_bg h3 {
+    font-size: 1.5rem;
+  }
+  .contant_box_404 {
+    margin-top: 0;
+    padding: 0 1rem;
+  }
+  .link_404 {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Utility for animate-float if used */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
 .animate-float {
   animation: float 2s ease-in-out infinite;
 }
