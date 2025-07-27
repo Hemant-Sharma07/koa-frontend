@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const formatInr = (value) =>
   "₹" + value.toLocaleString("en-IN", { maximumFractionDigits: 2 });
 
-const OrderSummary = ({ subtotal, savings, pickupFee, tax, total }) => (
+const OrderSummary = ({ subtotal, savings, pickupFee, tax, total,handleSubmit }) => (
   <div
     className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
     data-aos="fade-left"
@@ -33,20 +34,20 @@ const OrderSummary = ({ subtotal, savings, pickupFee, tax, total }) => (
         <dd className="font-bold">{formatInr(total)}</dd>
       </dl>
     </div>
-    <a
-      href="#"
+    <button
+     onClick={handleSubmit}
       className="flex w-full items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-orange-700"
     >
       Proceed to Checkout
-    </a>
+    </button>
     <div className="flex items-center justify-center gap-2">
       <span className="text-sm font-normal text-gray-500"> or </span>
-      <a
-        href="#"
+      <Link
+        to={'/'}
         className="inline-flex items-center gap-2 text-sm font-medium text-orange-700 underline hover:no-underline"
       >
         Continue Shopping
-      </a>
+      </Link>
     </div>
   </div>
 );

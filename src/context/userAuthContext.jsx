@@ -145,7 +145,7 @@ export const UserAuthProvider = ({ children }) => {
     try {
       setError(null);
       await signOut(auth);
-      toast.success("Logout successfully")
+      toast.success("Logout successfully");
     } catch (error) {
       setError(error.message);
        toast.error(error.message)

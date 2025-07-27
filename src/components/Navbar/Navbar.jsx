@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { CiBookmarkCheck } from "react-icons/ci";
 import {
   FiMenu,
   FiX,
@@ -18,6 +19,12 @@ const Navbar = () => {
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useUserAuth();
+  const navigate = useNavigate()
+
+  const logoutHandler = () => {
+    navigate('/')
+    logout()
+  }
 
   const categories = {
     nuts: [
@@ -278,9 +285,17 @@ const Navbar = () => {
                               <FiSettings size={16} className="mr-2" />
                               Profile
                             </button>
+                             <button
+                              onClick={()=>navigate('/orders')}
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                            >
+                              <CiBookmarkCheck size={16} className="mr-2" />
+                              Orders
+                            </button>
 
                             <button
-                              onClick={logout}
+                              onClick={logoutHandler}
+
                               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                             >
                               <FiLogOut size={16} className="mr-2" />

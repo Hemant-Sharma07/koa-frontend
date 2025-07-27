@@ -9,6 +9,7 @@ import { UserAuthProvider, useUserAuth } from "./context/userAuthContext";
 import Login from "./components/Auth/Login";
 import Home from "./pages/Home/Home";
 import { ProductProvider } from "./context/productContext";
+import { OrderProvider } from "./context/OrderContext";
 import ProductManager from "./pages/ProductManager";
 
 import { ToastContainer } from "react-toastify";
@@ -21,6 +22,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import AboutUs from "./pages/about-us/AboutUs";
+import UserOrderHistory from "./pages/checkout/UserOrderHistory";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -54,6 +56,7 @@ function App() {
   return (
     <UserAuthProvider>
       <ProductProvider>
+        <OrderProvider>
         <Router>
           <div className="App">
             <Routes>
@@ -61,6 +64,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/orders" element={<UserOrderHistory />} />
                 <Route
                   path="/cart"
                   element={
@@ -82,7 +86,7 @@ function App() {
 
           <ToastContainer
             position="top-right"
-            autoClose={5000}
+            autoClose={1000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -96,6 +100,7 @@ function App() {
             }}
           />
         </Router>
+        </OrderProvider>
       </ProductProvider>
     </UserAuthProvider>
   );

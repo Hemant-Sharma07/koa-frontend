@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import CartItem from "./CartItem";
 import OrderSummary from "./OrderSummary";
 import { useCart } from "../../context/CartContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import CheckoutModal from '../../components/CheckoutModal'
 
 const PICKUP_FEE = 99;
 const TAX = 10;
 
 const ShoppingCart = () => {
   const { cartItems, updateQuantity, removeFromCart, cartLoading } = useCart();
+   const [showCheckout, setShowCheckout] = useState(false);
+
+   const handleBuyNow = () => {
+    setShowCheckout(true);
+  };
 
   if (cartLoading) {
     return (
@@ -99,10 +105,18 @@ const ShoppingCart = () => {
               pickupFee={pickupFee}
               tax={tax}
               total={total}
+              handleSubmit={handleBuyNow}
             />
           </div>
         </div>
       </div>
+
+       <CheckoutModal 
+        isOpen={showCheckout}
+        onClose={() => setShowCheckout(false)}
+        cartItems={cartItems}
+        totalAmount={total}
+      />
     </section>
   );
 };
