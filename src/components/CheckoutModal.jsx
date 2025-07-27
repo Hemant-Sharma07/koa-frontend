@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useOrder } from '../context/OrderContext';
 import { useUserAuth } from '../context/userAuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
   const { createOrder, updateOrderStatus } = useOrder();
@@ -14,6 +15,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
     state: ''
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
     setUserDetails({
@@ -101,11 +103,13 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
         const verifyData = await verifyResponse.json();
         
         if (verifyData.success) {
-          alert('Payment successful!');
+          toast.success('Payment successful!');
+          navigate('/orders')
           onClose();
+
           // Clear cart here if needed
         } else {
-          alert('Payment verification failed!');
+          toast.error('Payment verification failed!');
         }
       },
       prefill: {

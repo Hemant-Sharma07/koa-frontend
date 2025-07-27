@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useOrder } from '../../contexts/OrderContext';
+import { useOrder } from '../../context/OrderContext';
+import { toast } from 'react-toastify';
+
 
 const OrderManagement = () => {
   const { orders, loading, getAllOrders, updateOrderStatus } = useOrder();
@@ -13,9 +15,9 @@ const OrderManagement = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await updateOrderStatus(orderId, newStatus);
-      alert('Order status updated successfully');
+      toast.success('Order status updated successfully');
     } catch (error) {
-      alert('Error updating order status');
+      toast.success('Error updating order status');
     }
   };
 

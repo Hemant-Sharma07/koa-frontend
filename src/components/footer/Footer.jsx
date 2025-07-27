@@ -1,253 +1,152 @@
 import React from "react";
-import { motion, useAnimation } from "framer-motion";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
-  FaFacebook,
-  FaInstagram,
+  FaFacebookF,
   FaTwitter,
+  FaLinkedinIn,
+  FaInstagram,
   FaYoutube,
-  FaStore,
-  FaGithub,
-  FaFileContract,
-  FaShieldAlt,
 } from "react-icons/fa";
-import { SiTailwindcss } from "react-icons/si";
 
 const Footer = () => {
   const footerLinks = [
     {
-      title: "Resources",
-      links: [
-        { name: "Store Store", url: "#", icon: <FaStore className="mr-2" /> },
-        {
-          name: "Tailwind CSS",
-          url: "https://tailwindcss.com/",
-          icon: <SiTailwindcss className="mr-2" />,
-        },
-      ],
+      linkName: "Home",
+      path: "/",
+      key: "1",
+    },
+    {
+      linkName: "About Us",
+      path: "/about-us",
+      key: "2",
+    },
+    {
+      linkName: "Cart",
+      path: "/cart",
+      key: "3",
+    },
+    {
+      linkName: "Contact Us",
+      path: "/contact-us",
+      key: "4",
+    },
+  ];
+
+  const socialLinks = [
+    {
+      href: "#",
+      icon: <FaFacebookF />,
+      name: "Facebook",
     },
     // {
-    //   title: "Follow Us",
-    //   links: [
-    //     { name: "GitHub", url: "#", icon: <FaGithub className="mr-2" /> },
-    //     { name: "Instagram", url: "#", icon: <FaInstagram className="mr-2" /> },
-    //   ],
+    //   href: "https://x.com/AdonearthMedia",
+    //   icon: <FaTwitter />,
+    //   name: "Twitter",
     // },
     {
-      title: "Legal",
-      links: [
-        {
-          name: "Privacy Policy",
-          url: "#",
-          icon: <FaShieldAlt className="mr-2" />,
-        },
-        {
-          name: "Terms & Conditions",
-          url: "#",
-          icon: <FaFileContract className="mr-2" />,
-        },
-      ],
-    },
-    {
-      title: "Legal",
-      links: [
-        {
-          name: "Privacy Policy",
-          url: "#",
-          icon: <FaShieldAlt className="mr-2" />,
-        },
-        {
-          name: "Terms & Conditions",
-          url: "#",
-          icon: <FaFileContract className="mr-2" />,
-        },
-      ],
-    },
-    {
-      title: "Legal",
-      links: [
-        {
-          name: "Privacy Policy",
-          url: "#",
-          icon: <FaShieldAlt className="mr-2" />,
-        },
-        {
-          name: "Terms & Conditions",
-          url: "#",
-          icon: <FaFileContract className="mr-2" />,
-        },
-      ],
-    },
-  ];
-
-  const socialIcons = [
-    {
-      label: "Facebook",
-      icon: <FaFacebook />,
-      url: "#",
-    },
-    {
-      label: "Instagram",
+      href: "#",
       icon: <FaInstagram />,
-      url: "#",
-    },
-    {
-      label: "Twitter",
-      icon: <FaTwitter />,
-      url: "#",
-    },
-    {
-      label: "YouTube",
-      icon: <FaYoutube />,
-      url: "#",
+      name: "Instagram",
     },
   ];
-
-  const controls = useAnimation();
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-      },
-    },
-  };
-
-  const hoverEffect = {
-    scale: 1.05,
-    transition: { duration: 0.2 },
-  };
-
-  const tapEffect = {
-    scale: 0.95,
-  };
 
   return (
-    <footer className="bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 text-white ">
-      <motion.div
-        className="w-full p-4 md:px-12 md:py-10 mx-auto"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ always: true }} // This ensures animation only happens once
-        variants={containerVariants}
-      >
-        <div className="md:flex md:justify-between">
-          <motion.div className="mb-10 md:mb-0" variants={itemVariants}>
-            <motion.a
-              href="#"
-              className="relative"
-              whileHover={hoverEffect}
-              whileTap={tapEffect}
-            >
-              <img
-                src="/KOALogo.jpeg"
-                className="h-32 w-32"
-                alt="Company Logo"
-              />
-              {/* <span className="self-center text-2xl font-bold whitespace-nowrap text-orange-100">
-                KOA
-              </span> */}
-            </motion.a>
-            {/* <motion.p
-              className="self-center text-2xl font-bold whitespace-nowrap text-orange-100"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              KOA Dry Fruits
-            </motion.p> */}
-          </motion.div>
+    <footer className="bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 text-white overflow-hidden">
+      <div className="w-full flex flex-col md:flex-row justify-center text-center md:items-start py-10 space-y-10 md:space-y-0 md:space-x-10">
+        {/* Logo Section */}
+        <motion.div
+          className="w-full md:w-1/4 "
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <img
+            src="/KOALogo.jpeg"
+            alt="Logo"
+            className="h-40 w-full object-contain mx-auto mb-4"
+          />
+          <p className="capitalize text-gray-100 text-md">
+            straight from nature
+          </p>
+        </motion.div>
 
-          <motion.div
-            className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-4"
-            variants={containerVariants}
-          >
-            {footerLinks.map((section, index) => (
-              <motion.div key={index} variants={itemVariants}>
-                <h2 className="mb-6 text-sm font-semibold uppercase text-orange-100">
-                  {section.title}
-                </h2>
-                <ul className="font-medium">
-                  {section.links.map((link, idx) => (
-                    <motion.li
-                      key={idx}
-                      className="mb-4"
-                      whileHover={{ x: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <a
-                        href={link.url}
-                        className="flex items-center hover:text-orange-200 transition-colors duration-200"
-                      >
-                        {link.icon}
-                        {link.name}
-                      </a>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
+        {/* Quick Links */}
+        <motion.div
+          className="w-full md:w-1/4 text-left px-6"
+          initial={{ x: -100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <h2 className="text-lg font-semibold mb-4   text-orange-50">
+            Quick Links
+          </h2>
+          <ul className="space-y-2">
+            {footerLinks.map(({ linkName, path, key }) => (
+              <li key={key}>
+                <Link
+                  to={path}
+                  className="text-white transition-colors duration-300"
+                >
+                  {linkName}
+                </Link>
+              </li>
             ))}
-          </motion.div>
-        </div>
+          </ul>
+        </motion.div>
 
-        <motion.hr
-          className="my-6 border-orange-300 opacity-50"
-          initial={{ width: 0 }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        />
+        {/* Contact Us Section */}
+        <motion.div
+          className="w-full md:w-1/4 text-left px-6"
+          initial={{ x: 100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
+          <h2 className="text-lg font-semibold mb-4 text-orange-50">
+            Store Address
+          </h2>
+          <p className="text-white/90 mb-2 ">
+            G-31-A, Sector 2, VIDHYADHAR ENCLAVE–II, Central Spine, Vidyadhar
+            Nagar, Jaipur, Rajasthan 302039
+          </p>
+          <p className="mb-2">Tel: +91-6367465206</p>
+          <p className="mb-2">Mail: koadryfruits2025@gmail.com</p>
+        </motion.div>
 
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <motion.span
-            className="text-sm text-orange-100 block mb-4 sm:mb-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            © {new Date().getFullYear()}{" "}
-            <a href="#" className="hover:underline font-medium">
-              KOA™
-            </a>
-            . All Rights Reserved.
-          </motion.span>
+        {/* Social Icons Section */}
+        <motion.div
+          className="w-full md:w-1/4 text-left px-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+        >
+          <h2 className="text-lg font-semibold mb-4 text-orange-100">
+            Let's Get Social
+          </h2>
+          <div className="flex space-x-4 justify-start  items-center mt-auto mb-4">
+            <div className="flex space-x-4 justify-center items-center mt-auto mb-4">
+              {socialLinks.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className=" hover:bg-white hover:text-orange-600 p-2 rounded-full text-2xl transition-all duration-300"
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
 
-          <motion.div
-            className="flex mt-4 sm:justify-center sm:mt-0 space-x-6"
-            variants={containerVariants}
-          >
-            {socialIcons.map((item, idx) => (
-              <motion.a
-                href={item.url}
-                key={idx}
-                className="text-orange-100 hover:text-white text-xl"
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.2,
-                  color: "#ffffff",
-                }}
-                whileTap={{ scale: 0.9 }}
-                aria-label={item.label}
-              >
-                {item.icon}
-              </motion.a>
-            ))}
-          </motion.div>
-        </div>
-      </motion.div>
+      {/* Copyright Section */}
+      <div className=" text-center py-4 border-t border-orange-300/20">
+        <p className="text-orange-100 text-sm">
+          © {new Date().getFullYear()} KOA Dry Fruits All rights reserved.
+        </p>
+      </div>
     </footer>
   );
 };

@@ -4,70 +4,65 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-
 import { UserAuthProvider, useUserAuth } from "./context/userAuthContext";
-import Login from "./components/Auth/Login";
-import Home from "./pages/Home/Home";
 import { ProductProvider } from "./context/productContext";
 import { OrderProvider } from "./context/OrderContext";
-import ProductManager from "./pages/ProductManager";
 
 import { ToastContainer } from "react-toastify";
-import AdminRoute from "./router/AdminRoute";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminLayout from "./layout/AdminLayout";
-import UserLayout from "./layout/UserLayout";
-import ShoppingCart from "./pages/Cart/ShoppingCart";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
-import AboutUs from "./pages/about-us/AboutUs";
 import UserOrderHistory from "./pages/checkout/UserOrderHistory";
+import { useEffect, lazy, Suspense } from "react";
+import LoadingSpinner from "./components/LoadingSpinner";
+import ProductOverview from "./components/Atoms/ProductOverview";
+import NotFound from "./components/Atoms/NotFound";
+import OrderManagement from "./pages/admin/OrderManagement";
 
-// Protected Route Component
+// Lazy-loaded components
+const Login = lazy(() => import("./components/Auth/Login"));
+const Home = lazy(() => import("./pages/Home/Home"));
+const AboutUs = lazy(() => import("./pages/about-us/AboutUs"));
+const ContactUs = lazy(() => import("./pages/contact-us/ContactUs"));
+const ShoppingCart = lazy(() => import("./pages/Cart/ShoppingCart"));
+const ProductManager = lazy(() => import("./pages/ProductManager"));
+const AdminRoute = lazy(() => import("./router/AdminRoute"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminLayout = lazy(() => import("./layout/AdminLayout"));
+const UserLayout = lazy(() => import("./layout/UserLayout"));
+
+// Protected Route
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useUserAuth();
-
-  if (loading) {
-    // return <LoadingSpinner />;
-  }
-
+  if (loading) return null;
   return user ? children : <Navigate to="/login" />;
 };
 
-// Public Route Component (redirect to dashboard if already logged in)
 const PublicRoute = ({ children }) => {
   const { user, loading } = useUserAuth();
-
-  // if (loading) {
-  //   return <LoadingSpinner />;
-  // }
-
+  if (loading) return null;
   return user ? <Navigate to="/" /> : children;
 };
 
 function App() {
   useEffect(() => {
-    AOS.init({
-      duration: 800, // animation duration
-      once: true, // only animate once
-    });
+    AOS.init({ duration: 800, once: true });
   }, []);
+
   return (
     <UserAuthProvider>
       <ProductProvider>
         <OrderProvider>
         <Router>
           <div className="App">
+            <Suspense>
             <Routes>
               <Route element={<UserLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/about-us" element={<AboutUs />} />
                 <Route path="/orders" element={<UserOrderHistory />} />
-                <Route
-                  path="/cart"
-                  element={
+                 <Route path="/product-overview/:id" element={<ProductOverview />} />
+                <Route path="/cart" element={
                     // <ProtectedRoute>
                     <ShoppingCart />
                     // </ProtectedRoute>
@@ -75,13 +70,15 @@ function App() {
                 />
               </Route>
 
-              <Route path="/admin" element={<AdminRoute />}>
-                <Route element={<AdminLayout />}>
-                  <Route index element={<AdminDashboard />} />
-                  <Route path="products" element={<ProductManager />} />
+                <Route path="/admin" element={<AdminRoute />}>
+                  <Route element={<AdminLayout />}>
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="products" element={<ProductManager />} />
+                     <Route path="orders" element={<OrderManagement />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
+              </Routes>
+            </Suspense>
           </div>
 
           <ToastContainer
@@ -95,9 +92,7 @@ function App() {
             draggable
             pauseOnHover
             theme="light"
-            style={{
-              fontSize: "14px",
-            }}
+            style={{ fontSize: "14px" }}
           />
         </Router>
         </OrderProvider>

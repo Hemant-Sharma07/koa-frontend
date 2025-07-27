@@ -7,17 +7,17 @@ import React from "react";
 // Product feature cards info
 const sections = [
   {
-    img: "https://images.unsplash.com/photo-1519864600265-abb277fd567f?auto=format&fit=crop&w=400&q=80",
+    img: "https://thumbs.dreamstime.com/b/mixed-dry-fruits-25481129.jpg",
     title: "Premium Nuts",
     desc: "Savor the crunch of our highest-grade almonds, cashews, and pistachios, perfected by nature and careful roasting.",
   },
   {
-    img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80",
+    img: "https://images.unsplash.com/photo-1667698346594-78ff9598d100?q=80&w=2695&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Exotic Dried Fruits",
     desc: "From sun-dried apricots to soft Medjool dates, enjoy nature’s candy packed with energy and vitamins.",
   },
   {
-    img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+    img: "https://plus.unsplash.com/premium_photo-1676208753932-6e8bc83a0b0d?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Healthy Seeds Mix",
     desc: "Fuel your day with our mixes of chia, flax, and pumpkin seeds — a modern twist on everyday nutrition.",
   },
@@ -25,13 +25,16 @@ const sections = [
 
 export default function AboutUs() {
   return (
-    <div className="mx-auto py-6 px-4 sm:px-10">
+    <div className="mx-auto py-6 px-4 sm:px-10 text-justify">
       {/* Intro */}
       <section>
-        <h1 className="text-3xl md:text-4xl font-bold text-orange-600 mb-4">
+        <h1
+          className="text-xl md:text-3xl font-bold text-orange-600 mb-4 text-center md:mb-10"
+          data-aos="fade-down"
+        >
           About Us
         </h1>
-        <p className="text-gray-700 mb-6 md:text-lg">
+        <p className="text-gray-700 mb-6 md:text-lg" data-aos="fade-zoom-in">
           Welcome to{" "}
           <span className="font-semibold text-orange-600">KOA Dryfruits</span> —
           your destination for premium nuts, dried fruits, seeds, and healthy
@@ -41,16 +44,30 @@ export default function AboutUs() {
       </section>
 
       {/* Our Story */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-orange-500 mb-2">
-          Our Story
+      <section className="mb-8" data-aos="fade-zoom-in">
+        <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
+          Our Vision
         </h2>
         <p className="text-gray-700">
-          Founded with a passion for health and taste, KOA began as a small
-          family-run venture dedicated to sourcing the freshest, highest-quality
-          dry fruits directly from trusted farms. Today, we have grown into a
-          vibrant online community, sharing our love for wholesome snacking with
-          homes across India and beyond.
+          KOA Dry fruits and spices envisions becoming a leading global choice
+          regarding premium quality dry fruits and spices, catering to the
+          diverse needs of customers worldwide. KOA’s main vision lies with
+          finest quality, customer satisfaction and sustainable growth
+        </p>
+      </section>
+      <section className="mb-8" data-aos="fade-zoom-in">
+        <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
+          Straight from nature/Origin
+        </h2>
+        <p className="text-gray-700">
+          KOA source finest quality of dry fruits and spices from origin where
+          they are grown in natural conditions like India, Iran, Afghanistan and
+          United States of America. The best quality saffron from Pampore
+          valley(Kashmir) is offered to our customers in India. Kashmiri
+          Kesar(Mongra Saffron) and Mamra is renowed for its unique rich
+          flavour, vibrant colour, exceptional aroma and highest grade
+          containing only red part of the stigma, ensuring the highest
+          concentration of colour and flavour compounds
         </p>
       </section>
 
@@ -58,7 +75,7 @@ export default function AboutUs() {
 
       {/* Unique features list */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-orange-500 mb-2">
+        <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
           What Makes Us Unique
         </h2>
         <ul className="list-disc pl-6 text-gray-700 space-y-1">
@@ -82,8 +99,8 @@ export default function AboutUs() {
       </section>
 
       {/* Table */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-semibold text-orange-500 mb-2">
+      <section className="mb-10 " data-aos="fade-right">
+        <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
           Why Choose KOA Dryfruits?
         </h2>
         <div className="overflow-x-auto">
@@ -124,8 +141,8 @@ export default function AboutUs() {
       </section>
 
       {/* Product highlights */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-orange-500 mb-4">
+      <section className="mb-12" data-aos="fade-right">
+        <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-4">
           Meet Our Healthy Delights
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -137,7 +154,7 @@ export default function AboutUs() {
               <img
                 src={sec.img}
                 alt={sec.title}
-                className="h-40 w-full object-cover rounded-md mb-4"
+                className="h-56 w-full object-cover rounded-md mb-4"
                 loading="lazy"
               />
               <h3 className="text-xl font-bold text-orange-700 mb-2">
@@ -150,8 +167,8 @@ export default function AboutUs() {
       </section>
 
       {/* Culture and contact */}
-      <section className="mb-6">
-        <h2 className="text-2xl font-semibold text-orange-500 mb-2">
+      <section className="mb-6" data-aos="fade-zoom-in">
+        <h2 className="text-lg md:text-xl font-semibold text-orange-500 mb-2">
           Community, Tradition, and Innovation
         </h2>
         <p className="text-gray-700">
@@ -160,34 +177,6 @@ export default function AboutUs() {
           fusing generational wisdom with modern logistics and design, we offer
           you variety, nutrition, and the joy of authentic taste.
         </p>
-      </section>
-
-      <section className="text-center mt-6 mb-2">
-        <h2 className="text-xl font-semibold text-orange-600 mb-2">
-          Join the KOA Family
-        </h2>
-        <p className="text-gray-700 mb-3">
-          Follow us on social media for recipes, tips, and seasonal offers, or
-          contact our expert team for personal guidance!
-        </p>
-        <div className="flex justify-center gap-4">
-          <a
-            href="https://instagram.com/"
-            className="text-orange-600 font-medium underline hover:no-underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-          <a
-            href="https://facebook.com/"
-            className="text-orange-600 font-medium underline hover:no-underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Facebook
-          </a>
-        </div>
       </section>
 
       <p className="text-xs text-gray-400 mt-8 text-center">

@@ -15,7 +15,7 @@ const ProductCard = ({
 }) => {
   return (
     <div className="w-full max-w-[350px] bg-white shadow-md rounded-md duration-500 hover:-translate-y-2 hover:shadow-xl">
-      <Link to={`/products/${id}`} className="block">
+      <Link to={`/product-overview/${id}`} className="block">
         <div className="relative aspect-square overflow-hidden rounded-t-md">
           <img
             src={imageUrl}
