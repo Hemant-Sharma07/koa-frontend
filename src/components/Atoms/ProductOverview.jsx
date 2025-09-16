@@ -280,21 +280,6 @@ const ProductOverview = () => {
           )}
 
           {/* Description (Desktop) */}
-          <div className="mt-8 hidden lg:block w-full">
-            <h3 className="text-lg font-semibold text-orange-700">
-              Product Description
-            </h3>
-            <p className="text-base text-slate-600 mt-4">
-              {product.description}
-            </p>
-            {product.highlights?.length > 0 && (
-              <ul className="space-y-2 list-disc mt-4 pl-5 text-base text-slate-500">
-                {product.highlights.map((point, idx) => (
-                  <li key={idx}>{point}</li>
-                ))}
-              </ul>
-            )}
-          </div>
         </div>
 
         {/* Info and Actions */}
@@ -415,7 +400,7 @@ const ProductOverview = () => {
           </div>
 
           {/* Description (Mobile/Tablet) */}
-          <div className="mt-8 block lg:hidden">
+          <div className="mt-8 hidden lg:block w-full">
             <h3 className="text-lg font-semibold text-orange-700">
               Product Description
             </h3>

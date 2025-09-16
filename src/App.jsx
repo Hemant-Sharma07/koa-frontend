@@ -6,13 +6,18 @@ import {
 } from "react-router-dom";
 import { UserAuthProvider, useUserAuth } from "./context/userAuthContext";
 import { ProductProvider } from "./context/productContext";
+import { OrderProvider } from "./context/OrderContext";
+
 import { ToastContainer } from "react-toastify";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import UserOrderHistory from "./pages/checkout/UserOrderHistory";
 import { useEffect, lazy, Suspense } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ProductOverview from "./components/Atoms/ProductOverview";
 import NotFound from "./components/Atoms/NotFound";
+import OrderManagement from "./pages/admin/OrderManagement";
+import ProductsList from "./pages/ProductList/ProductsList";
 
 // Lazy-loaded components
 const Login = lazy(() => import("./components/Auth/Login"));
@@ -47,60 +52,57 @@ function App() {
   return (
     <UserAuthProvider>
       <ProductProvider>
-        <Router>
-          <div className="App overflow-hidden">
-            <Suspense
-              fallback={
-                <div className="text-center mt-10">
-                  <LoadingSpinner />
-                </div>
-              }
-            >
-              <Routes>
-                <Route element={<UserLayout />}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/contact-us" element={<ContactUs />} />
-                  <Route
-                    path="/cart"
-                    element={
-                      // <ProtectedRoute>
-                      <ShoppingCart />
-                      // </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/product-overview/:id"
-                    element={<ProductOverview />}
-                  />
-                  <Route path="*" element={<NotFound />} />
-                </Route>
-
-                <Route path="/admin" element={<AdminRoute />}>
-                  <Route element={<AdminLayout />}>
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="products" element={<ProductManager />} />
+        <OrderProvider>
+          <Router>
+            <div className="App">
+              <Suspense>
+                <Routes>
+                  <Route element={<UserLayout />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/about-us" element={<AboutUs />} />
+                    <Route path="/orders" element={<UserOrderHistory />} />
+                    <Route
+                      path="/product-overview/:id"
+                      element={<ProductOverview />}
+                    />
+                    <Route path="/products/:slug" element={<ProductsList />} />
+                    <Route
+                      path="/cart"
+                      element={
+                        // <ProtectedRoute>
+                        <ShoppingCart />
+                        // </ProtectedRoute>
+                      }
+                    />
                   </Route>
-                </Route>
-              </Routes>
-            </Suspense>
-          </div>
 
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            style={{ fontSize: "14px" }}
-          />
-        </Router>
+                  <Route path="/admin" element={<AdminRoute />}>
+                    <Route element={<AdminLayout />}>
+                      <Route index element={<AdminDashboard />} />
+                      <Route path="products" element={<ProductManager />} />
+                      <Route path="orders" element={<OrderManagement />} />
+                    </Route>
+                  </Route>
+                </Routes>
+              </Suspense>
+            </div>
+
+            <ToastContainer
+              position="top-right"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              style={{ fontSize: "14px" }}
+            />
+          </Router>
+        </OrderProvider>
       </ProductProvider>
     </UserAuthProvider>
   );

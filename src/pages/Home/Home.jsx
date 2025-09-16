@@ -6,6 +6,7 @@ import OurVision from "../../components/OurVision/OurVision";
 import { useProduct } from "../../context/productContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useCart } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,7 @@ const Home = () => {
   const { getAllProducts } = useProduct();
 
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   // const galleryImages = [
   //   [
@@ -56,10 +58,25 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  // console.log(products);
+  const nutsProducts = products.filter(
+    (product) => product.category === "Nuts"
+  );
+  const dryFruitsProducts = products.filter(
+    (product) => product.category === "Dry Fruits"
+  );
+  const seedsProducts = products.filter(
+    (product) => product.category === "Seeds"
+  );
+  const saffronProducts = products.filter(
+    (product) => product.category === "Saffron"
+  );
+  const indianSpicesProducts = products.filter(
+    (product) => product.category === "Indian Spices"
+  );
 
-  const handleViewAll = () => {
-    console.log("View all clicked");
+  const handleViewAll = (category) => {
+    // encodeURIComponent handles spaces, etc.
+    navigate(`/products/${encodeURIComponent(category)}`);
   };
 
   if (loading) {
@@ -75,12 +92,15 @@ const Home = () => {
       <div className="mx-auto px-3 flex flex-col gap-5 md:gap-10 py-5 md:py-10">
         <HeroSlider />
         <div>
-          <PageHeader heading="Delicacies" onClick={handleViewAll} />
+          <PageHeader
+            heading="Curated Nuts & Delicacies"
+            onClick={() => handleViewAll("Nuts")}
+          />
           <section
             className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-6 justify-items-center"
             data-aos="fade-left"
           >
-            {products.slice(0, 8).map((product) => {
+            {nutsProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
@@ -111,12 +131,15 @@ const Home = () => {
           <OurVision />
         </div>
         <div>
-          <PageHeader heading="Featured Collection" onClick={handleViewAll} />
+          <PageHeader
+            heading="Curated Dry Fruits"
+            onClick={() => handleViewAll("Dry Fruits")}
+          />
           <section
             className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center"
             data-aos="fade-left"
           >
-            {products.slice(0, 8).map((product) => {
+            {dryFruitsProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
@@ -144,12 +167,15 @@ const Home = () => {
           </section>
         </div>
         <div>
-          <PageHeader heading="Ajfan Specialties" onClick={handleViewAll} />
+          <PageHeader
+            heading="Organic Seeds"
+            onClick={() => handleViewAll("Seeds")}
+          />
           <section
             className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center"
             data-aos="fade-right"
           >
-            {products.slice(0, 8).map((product) => {
+            {seedsProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
@@ -175,29 +201,78 @@ const Home = () => {
               );
             })}
           </section>
-          {/* <div className="px-3 md:px-9 " data-aos="fade-right">
-            <div className="mb-12">
-              <h2 className="text-xl sm:text-2xl font-semibold text-orange-600 mb-4 tracking-wider">
-                KOA Moments Gallery
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-6">
-                {galleryImages.map((col, i) => (
-                  <div className="grid gap-4" key={i}>
-                    {col.map((img, j) => (
-                      <div key={j}>
-                        <img
-                          className="h-auto max-w-full rounded-lg"
-                          src={img}
-                          alt={`KOA gallery ${i * 3 + j + 1}`}
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div> */}
+        </div>
+        <div>
+          <PageHeader
+            heading="Saffron Collection"
+            onClick={() => handleViewAll("Saffron")}
+          />
+          <section
+            className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center"
+            data-aos="fade-right"
+          >
+            {saffronProducts.slice(0, 4).map((product) => {
+              const uid = product.id || product._id;
+              return (
+                <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
+                  <ProductCard
+                    id={uid}
+                    key={uid}
+                    imageUrl={product.image}
+                    brand={product.category}
+                    productName={product.title}
+                    currentPrice={product.newPrice}
+                    originalPrice={product.oldPrice}
+                    onAddToCart={() =>
+                      addToCart({
+                        id: uid,
+                        name: product.title,
+                        price: product.newPrice,
+                        oldPrice: product.oldPrice,
+                        imageLight: product.image,
+                      })
+                    }
+                  />
+                </div>
+              );
+            })}
+          </section>
+        </div>
+        <div>
+          <PageHeader
+            heading="Indian Spices"
+            onClick={() => handleViewAll("Indian Spices")}
+          />
+          <section
+            className="mx-auto w-full  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-10 justify-items-center"
+            data-aos="fade-right"
+          >
+            {indianSpicesProducts.slice(0, 4).map((product) => {
+              const uid = product.id || product._id;
+              return (
+                <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
+                  <ProductCard
+                    id={uid}
+                    key={uid}
+                    imageUrl={product.image}
+                    brand={product.category}
+                    productName={product.title}
+                    currentPrice={product.newPrice}
+                    originalPrice={product.oldPrice}
+                    onAddToCart={() =>
+                      addToCart({
+                        id: uid,
+                        name: product.title,
+                        price: product.newPrice,
+                        oldPrice: product.oldPrice,
+                        imageLight: product.image,
+                      })
+                    }
+                  />
+                </div>
+              );
+            })}
+          </section>
         </div>
       </div>
     </>

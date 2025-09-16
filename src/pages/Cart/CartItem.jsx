@@ -13,7 +13,7 @@ const CartItem = ({ item, onChangeQuantity, onRemove }) => {
         {/* Product Image */}
         <div className="flex justify-center sm:justify-start sm:w-1/4">
           <img
-            className="h-32 w-32 object-contain"
+            className="h-28 w-32 object-contain"
             src={item.imageLight}
             alt={item.name}
           />

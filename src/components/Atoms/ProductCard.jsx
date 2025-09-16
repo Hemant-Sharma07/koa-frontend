@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { FiShoppingBag } from "react-icons/fi";
+import { FiShoppingBag, FiShoppingCart } from "react-icons/fi";
+import { Button } from "./AllButtons";
 
 const formatInr = (value) =>
   "₹" + Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 });
@@ -14,7 +15,7 @@ const ProductCard = ({
   onAddToCart,
 }) => {
   return (
-    <div className="w-full max-w-[350px] bg-white shadow-md rounded-md duration-500 hover:-translate-y-2 hover:shadow-xl">
+    <div className="w-full max-w-[350px] bg-white shadow-md rounded-md duration-500 hover:-translate-y-2 hover:shadow-xl border">
       <Link to={`/product-overview/${id}`} className="block">
         <div className="relative aspect-square overflow-hidden rounded-t-md">
           <img
@@ -24,16 +25,16 @@ const ProductCard = ({
             loading="lazy"
           />
         </div>
-        <div className="px-4 py-4">
-          <span className="text-gray-500 text-sm font-medium uppercase tracking-wide">
+        <div className="px-3 py-2 md:p-4">
+          {/* <span className="text-gray-500 text-sm font-medium uppercase tracking-wide">
             {brand}
-          </span>
-          <h3 className="text-lg font-bold text-gray-900 truncate mt-1 mb-2">
+          </span> */}
+          <h3 className="text-md sm:text-lg font-bold text-gray-900 truncate mt-1 mb-2 capitalize">
             {productName}
           </h3>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <p className="text-lg font-semibold text-gray-900">
+          <div className="flex flex-col items-start justify-start">
+            <div className="flex items-center gap-1">
+              <p className="text-sm md:text-lg font-semibold text-gray-900">
                 {formatInr(currentPrice)}
               </p>
               {originalPrice && (
@@ -42,16 +43,26 @@ const ProductCard = ({
                 </del>
               )}
             </div>
-            <button
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+          </div>
+          {/* <button
+            className="rounded-md w-full py-1 px-2 text-white text-sm bg-orange-600 transition-colors duration-200 my-2"
+            onClick={(e) => {
+              e.preventDefault();
+              onAddToCart?.();
+            }}
+            aria-label="Add to cart"
+          >
+            Add To Cart
+          </button> */}
+          <div className="flex items-center justify-end mt-3 w-full">
+            <Button
+              title="Add to Cart"
+              className="w-full"
               onClick={(e) => {
                 e.preventDefault();
                 onAddToCart?.();
               }}
-              aria-label="Add to cart"
-            >
-              <FiShoppingBag className="text-xl text-gray-700" />
-            </button>
+            />
           </div>
         </div>
       </Link>

@@ -1,4 +1,9 @@
-const Button = ({ title = "View All", onClick, variant = "filled" }) => {
+const Button = ({
+  title = "View All",
+  onClick,
+  variant = "filled",
+  className,
+}) => {
   let baseClasses =
     "font-medium shadow px-3 py-2 sm:px-5 sm:py-3 text-sm sm:text-md rounded-md transition-all duration-200";
 
@@ -19,7 +24,7 @@ const Button = ({ title = "View All", onClick, variant = "filled" }) => {
 
   return (
     <button
-      className={`${baseClasses} ${variantClasses} hover:-translate-y-1`}
+      className={`${baseClasses} ${variantClasses} ${className} hover:-translate-y-1`}
       onClick={onClick}
     >
       {title}

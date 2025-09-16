@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import CartItem from "./CartItem";
 import OrderSummary from "./OrderSummary";
 import { useCart } from "../../context/CartContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import CheckoutModal from "../../components/CheckoutModal";
 
 const PICKUP_FEE = 99;
 const TAX = 10;
 
 const ShoppingCart = () => {
   const { cartItems, updateQuantity, removeFromCart, cartLoading } = useCart();
+  const [showCheckout, setShowCheckout] = useState(false);
+
+  const handleBuyNow = () => {
+    setShowCheckout(true);
+  };
 
   if (cartLoading) {
     return (
@@ -45,7 +51,7 @@ const ShoppingCart = () => {
         >
           Shopping Cart
         </h2>
-        <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+        <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8 mb-10">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
             <div className="space-y-6">
               {isEmpty ? (
@@ -99,10 +105,18 @@ const ShoppingCart = () => {
               pickupFee={pickupFee}
               tax={tax}
               total={total}
+              handleSubmit={handleBuyNow}
             />
           </div>
         </div>
       </div>
+
+      <CheckoutModal
+        isOpen={showCheckout}
+        onClose={() => setShowCheckout(false)}
+        cartItems={cartItems}
+        totalAmount={total}
+      />
     </section>
   );
 };
