@@ -17,6 +17,10 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const isLive = true
+
+  const baseUrl = !isLive ? "http://localhost:5000" : "https://koa-backend-gaqt.onrender.com"
+
   const handleInputChange = (e) => {
     setUserDetails({
       ...userDetails,
@@ -49,7 +53,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
       setLoading(true);
 
       // Call your server to create order
-      const response = await fetch("http://localhost:8080/api/create-order", {
+      const response = await fetch(`${baseUrl}/api/create-order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +92,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
         handler: async (response) => {
           // Verify payment on server
           const verifyResponse = await fetch(
-            "http://localhost:5000/api/verify-payment",
+            `${baseUrl}/api/verify-payment`,
             {
               method: "POST",
               headers: {
@@ -126,7 +130,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
         modal: {
           ondismiss: () => {
             // Update order status to cancelled
-            fetch("http://localhost:5000/api/update-order-status", {
+            fetch(`${baseUrl}/api/update-order-status`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
