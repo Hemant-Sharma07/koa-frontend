@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ProductCard from "../../components/Atoms/ProductCard";
 import { useProduct } from "../../context/productContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { useCart } from "../../context/CartContext";
 
 const ProductsList = () => {
   const { slug } = useParams();
@@ -10,6 +11,7 @@ const ProductsList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { getAllProducts } = useProduct();
+    const { addToCart } = useCart();
 
   // Scroll to top on mount
   useEffect(() => {
@@ -80,7 +82,15 @@ const ProductsList = () => {
               productName={product.title}
               currentPrice={product.newPrice}
               originalPrice={product.oldPrice}
-              onAddToCart={() => console.log(`Add to cart: ${product.title}`)}
+              onAddToCart={() =>
+                      addToCart({
+                        id: product.id,
+                        name: product.title,
+                        price: product.newPrice,
+                        oldPrice: product.oldPrice,
+                        imageLight: product.image,
+                      })
+                    }
             />
           ))}
         </div>
