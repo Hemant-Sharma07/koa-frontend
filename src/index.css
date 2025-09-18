@@ -1,3 +1,178 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  /* background: url("/NutsBG1.webp") center/cover no-repeat fixed; */
+  /* background-color: rgba(255, 222, 124, 0.35); */
+}
+
+.customBtn {
+  --color: rgb(246, 110, 6);
+  font-family: inherit;
+  display: inline-block;
+  width: 6em;
+  height: 2.6em;
+  line-height: 2.5em;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 17px;
+  z-index: 1;
+  color: white; /* Orange text */
+  border: 2px solid var(--color); /* Orange border */
+  border-radius: 6px;
+  position: relative;
+  background: var(--color);
+  transition: color 0.3s ease;
+}
+
+.customBtn::before {
+  content: "";
+  position: absolute;
+  background: white; /* Orange background circle */
+  width: 150px;
+  height: 200px;
+  top: 100%;
+  left: 100%;
+  z-index: -1;
+  border-radius: 50%;
+  transition: 0.3s all;
+}
+
+.customBtn:hover {
+  color: var(--color); /* Text turns black on hover */
+}
+
+.customBtn:hover::before {
+  top: -30px;
+  left: -30px;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -60%) scale(1.1) rotate(10deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+  }
+  75% {
+    transform: translate(-50%, -40%) scale(1.05) rotate(-10deg);
+  }
+}
+
+/* page not found */
+
+.page_404 {
+  padding: 40px 0;
+  background: #fff;
+  font-family: "Arvo", serif;
+  height: 100vh;
+}
+
+.four_zero_four_bg {
+  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.four_zero_four_bg h1 {
+  font-size: 6rem;
+  margin: 0;
+}
+
+.four_zero_four_bg h3 {
+  font-size: 2.5rem;
+}
+
+/* Content box */
+.contant_box_404 {
+  margin-top: -60px;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.link_404 {
+  color: #fff !important;
+  padding: 10px 20px;
+  background: #ea580c;
+  margin: 20px 0;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.link_404:hover,
+.link_404:focus {
+  background: #bb4f11;
+}
+
+/* Bootstrap col fallbacks for mobile stacking */
+.col-sm-12,
+.col-sm-10,
+.col-sm-offset-1 {
+  width: 100%;
+  float: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 900px) {
+  .four_zero_four_bg h1 {
+    font-size: 4.5rem;
+  }
+  .four_zero_four_bg {
+    height: 220px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page_404 {
+    padding: 24px 0;
+  }
+  .four_zero_four_bg {
+    height: 150px;
+  }
+  .four_zero_four_bg h1 {
+    font-size: 2.3rem;
+  }
+  .four_zero_four_bg h3 {
+    font-size: 1.5rem;
+  }
+  .contant_box_404 {
+    margin-top: 0;
+    padding: 0 1rem;
+  }
+  .link_404 {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Utility for animate-float if used */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+}
