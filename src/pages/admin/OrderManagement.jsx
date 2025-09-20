@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useOrder } from '../../context/OrderContext';
-import { toast } from 'react-toastify';
-
+import React, { useEffect, useState } from "react";
+import { useOrder } from "../../context/OrderContext";
+import { toast } from "react-toastify";
 
 const OrderManagement = () => {
   const { orders, loading, getAllOrders, updateOrderStatus } = useOrder();
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     const unsubscribe = getAllOrders();
@@ -15,24 +14,31 @@ const OrderManagement = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await updateOrderStatus(orderId, newStatus);
-      toast.success('Order status updated successfully');
+      toast.success("Order status updated successfully");
     } catch (error) {
-      toast.success('Error updating order status');
+      toast.success("Error updating order status");
     }
   };
 
-  const filteredOrders = filter === 'all' 
-    ? orders 
-    : orders.filter(order => order.status === filter);
+  const filteredOrders =
+    filter === "all"
+      ? orders
+      : orders.filter((order) => order.status === filter);
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'paid': return 'bg-green-100 text-green-800';
-      case 'shipped': return 'bg-blue-100 text-blue-800';
-      case 'delivered': return 'bg-purple-100 text-purple-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "paid":
+        return "bg-green-100 text-green-800";
+      case "shipped":
+        return "bg-blue-100 text-blue-800";
+      case "delivered":
+        return "bg-purple-100 text-purple-800";
+      case "cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -42,8 +48,8 @@ const OrderManagement = () => {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Order Management</h1>
-        
-        <select 
+
+        <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -89,24 +95,34 @@ const OrderManagement = () => {
                     #{order.id.slice(-8)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{order.userDetails.name}</div>
-                    <div className="text-sm text-gray-500">{order.userEmail}</div>
+                    <div className="text-sm text-gray-900">
+                      {order.userDetails.name}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      {order.userEmail}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     ₹{order.totalAmount}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
+                    <span
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
+                        order.status
+                      )}`}
+                    >
                       {order.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {order.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}
+                    {order.createdAt?.toDate?.()?.toLocaleDateString() || "N/A"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <select
                       value={order.status}
-                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      onChange={(e) =>
+                        handleStatusChange(order.id, e.target.value)
+                      }
                       className="p-1 border rounded text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
                     >
                       <option value="pending">Pending</option>

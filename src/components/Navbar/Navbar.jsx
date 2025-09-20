@@ -33,11 +33,11 @@ const Navbar = () => {
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const categories = [
-    "Curated Nuts & Delicacies",
-    "Curated Dry Fruits",
-    "Organic Seeds",
-    "Saffron Collection",
-    "Indian Spices",
+    { name: "Curated Nuts & Delicacies", path: "products/Nuts" },
+    { name: "Curated Dry Fruits", path: "products/Dry%20Fruits" },
+    { name: "Organic Seeds", path: "products/Seeds" },
+    { name: "Saffron Collection", path: "products/Saffron" },
+    { name: "Indian Spices", path: "products/Indian%20Spices" },
   ];
 
   const dropdownRef = useRef(null);
@@ -98,7 +98,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className="relative border-b z-50" data-aos="fade-down">
+    <div
+      className="relative border-b z-50"
+      data-aos="fade-down"
+      onClick={() => setIsOpen(false)}
+    >
       <header className="relative mx-auto sm:px-3">
         <nav aria-label="Top" className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
@@ -165,13 +169,11 @@ const Navbar = () => {
                           {categories.map((category) => (
                             <li key={category}>
                               <Link
-                                to={`/products/${category
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}`}
-                                onClick={() => setDesktopMenuOpen(false)}
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition"
+                                key={category.name}
+                                to={`/${category.path}`}
+                                className="block p-2 text-gray-900 font-medium hover:text-orange-500"
                               >
-                                {category}
+                                {category.name}
                               </Link>
                             </li>
                           ))}
@@ -212,8 +214,10 @@ const Navbar = () => {
                   {user && (
                     <div
                       className="hidden sm:block relative"
-                      onMouseEnter={() => setIsOpen(true)}
-                      onMouseLeave={() => setIsOpen(false)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsOpen(!isOpen);
+                      }}
                     >
                       <button className="text-md font-medium text-gray-900 hover:text-orange-500 flex items-center focus:outline-none">
                         <FiUser size={18} className="mr-1" />
@@ -384,14 +388,12 @@ const Navbar = () => {
                   <div className="space-y-3 px-4 pb-8 pt-6">
                     {categories.map((category) => (
                       <Link
-                        key={category}
-                        to={`/products/${category
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")}`}
+                        key={category.name}
+                        to={`/${category.path}`}
                         onClick={() => setMobileMenuOpen(false)}
                         className="block p-2 text-gray-900 font-medium hover:text-orange-500"
                       >
-                        {category}
+                        {category.name}
                       </Link>
                     ))}
                   </div>
