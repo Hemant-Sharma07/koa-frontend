@@ -37,6 +37,241 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
+// const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
+//   const [formData, setFormData] = useState({
+//     title: product?.title || "",
+//     description: product?.description || "",
+//     category: product?.category || "",
+//     oldPrice: product?.oldPrice || "",
+//     newPrice: product?.newPrice || "",
+//     stock: product?.stock || "",
+//     inHotDeal: product?.inHotDeal || false,
+//   });
+
+//   const [imageFile, setImageFile] = useState(null);
+//   const [previewUrl, setPreviewUrl] = useState(product?.image || "");
+
+//   const categories = [
+//     "Nuts",
+//     "Dry Fruits",
+//     "Seeds",
+//     "Saffron",
+//     "Indian Spices",
+//   ];
+
+//   const handleInputChange = (e) => {
+//     const { name, value, type, checked } = e.target;
+//     setFormData((prev) => ({
+//       ...prev,
+//       [name]: type === "checkbox" ? checked : value,
+//     }));
+//   };
+
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       setImageFile(file);
+//       const reader = new FileReader();
+//       reader.onloadend = () => setPreviewUrl(reader.result);
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const result = await onSubmit(formData, imageFile);
+//     if (result.success) {
+//       onCancel();
+//     }
+//   };
+
+//   return (
+//     <div className="space-y-6">
+//       <form>
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <Package className="w-4 h-4 inline mr-2" />
+//               Product Title
+//             </label>
+//             <input
+//               type="text"
+//               name="title"
+//               value={formData.title}
+//               onChange={handleInputChange}
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="Enter product title"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <Tag className="w-4 h-4 inline mr-2" />
+//               Category
+//             </label>
+//             <select
+//               name="category"
+//               value={formData.category}
+//               onChange={handleInputChange}
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//             >
+//               <option value="">Select Category</option>
+//               {categories.map((category) => (
+//                 <option key={category} value={category}>
+//                   {category}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-semibold text-gray-700 mb-2">
+//             Description
+//           </label>
+//           <textarea
+//             name="description"
+//             value={formData.description}
+//             onChange={handleInputChange}
+//             required
+//             rows={4}
+//             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//             placeholder="Enter product description"
+//           />
+//         </div>
+
+//         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <DollarSign className="w-4 h-4 inline mr-2" />
+//               Old Price
+//             </label>
+//             <input
+//               type="number"
+//               name="oldPrice"
+//               value={formData.oldPrice}
+//               onChange={handleInputChange}
+//               step="0.01"
+//               min="0"
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="0.00"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <DollarSign className="w-4 h-4 inline mr-2" />
+//               New Price
+//             </label>
+//             <input
+//               type="number"
+//               name="newPrice"
+//               value={formData.newPrice}
+//               onChange={handleInputChange}
+//               step="0.01"
+//               min="0"
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="0.00"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               Stock Quantity
+//             </label>
+//             <input
+//               type="number"
+//               name="stock"
+//               value={formData.stock}
+//               onChange={handleInputChange}
+//               min="0"
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="0"
+//             />
+//           </div>
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-semibold text-gray-700 mb-2">
+//             <ImageIcon className="w-4 h-4 inline mr-2" />
+//             Product Image
+//           </label>
+//           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+//             <input
+//               type="file"
+//               accept="image/*"
+//               onChange={handleImageChange}
+//               className="hidden"
+//               id="image-upload"
+//               multiple='trues'
+//             />
+//             <label htmlFor="image-upload" className="cursor-pointer">
+//               {previewUrl ? (
+//                 <div className="space-y-2">
+//                   <img
+//                     src={previewUrl}
+//                     alt="Preview"
+//                     className="mx-auto w-32 h-32 object-cover rounded-lg border-2 border-gray-200"
+//                   />
+//                   <p className="text-sm text-gray-600">Click to change image</p>
+//                 </div>
+//               ) : (
+//                 <div className="space-y-2">
+//                   <Upload className="mx-auto w-12 h-12 text-gray-400" />
+//                   <p className="text-gray-600">Click to upload image</p>
+//                 </div>
+//               )}
+//             </label>
+//           </div>
+//         </div>
+
+//         <div className="flex items-center">
+//           <input
+//             type="checkbox"
+//             name="inHotDeal"
+//             checked={formData.inHotDeal}
+//             onChange={handleInputChange}
+//             className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
+//           />
+//           <label className="ml-3 text-sm font-semibold text-gray-700">
+//             <Star className="w-4 h-4 inline mr-1 text-red-500" />
+//             Mark as Hot Deal
+//           </label>
+//         </div>
+
+//         <div className="flex gap-4 pt-4">
+//           <button
+//             onClick={handleSubmit}
+//             disabled={loading}
+//             className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+//           >
+//             {loading
+//               ? "Processing..."
+//               : product
+//               ? "Update Product"
+//               : "Add Product"}
+//           </button>
+//           <button
+//             onClick={onCancel}
+//             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+//           >
+//             Cancel
+//           </button>
+//         </div>
+//         {/* </div>lg font-semibold hover:bg-gray-50 transition-colors"
+//         >
+//           Cancel
+//         </button>
+//       </div> */}
+//       </form>
+//     </div>
+//   );
+// };
+
 const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
   const [formData, setFormData] = useState({
     title: product?.title || "",
@@ -48,8 +283,9 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
     inHotDeal: product?.inHotDeal || false,
   });
 
-  const [imageFile, setImageFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(product?.image || "");
+  // 🔹 Multiple images state
+  const [imageFiles, setImageFiles] = useState([]);
+  const [previewUrls, setPreviewUrls] = useState(product?.images || []); // in case product already has images
 
   const categories = [
     "Nuts",
@@ -67,19 +303,30 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
     }));
   };
 
+  // 🔹 Handle multiple image selection
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setPreviewUrl(reader.result);
-      reader.readAsDataURL(file);
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      setImageFiles(files);
+
+      // Generate preview for all selected images
+      const previews = [];
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          previews.push(reader.result);
+          if (previews.length === files.length) {
+            setPreviewUrls(previews);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await onSubmit(formData, imageFile);
+    const result = await onSubmit(formData, imageFiles); // send array
     if (result.success) {
       onCancel();
     }
@@ -88,6 +335,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
   return (
     <div className="space-y-6">
       <form>
+        {/* --- title & category --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -127,6 +375,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           </div>
         </div>
 
+        {/* --- description --- */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Description
@@ -142,6 +391,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           />
         </div>
 
+        {/* --- pricing & stock --- */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -195,39 +445,47 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           </div>
         </div>
 
+        {/* --- multiple image upload --- */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             <ImageIcon className="w-4 h-4 inline mr-2" />
-            Product Image
+            Product Images
           </label>
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
             <input
               type="file"
               accept="image/*"
+              multiple
               onChange={handleImageChange}
               className="hidden"
               id="image-upload"
             />
             <label htmlFor="image-upload" className="cursor-pointer">
-              {previewUrl ? (
-                <div className="space-y-2">
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    className="mx-auto w-32 h-32 object-cover rounded-lg border-2 border-gray-200"
-                  />
-                  <p className="text-sm text-gray-600">Click to change image</p>
+              {previewUrls.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {previewUrls.map((url, index) => (
+                    <img
+                      key={index}
+                      src={url}
+                      alt={`Preview ${index}`}
+                      className="w-32 h-32 object-cover rounded-lg border-2 border-gray-200 mx-auto"
+                    />
+                  ))}
+                  <p className="col-span-full text-sm text-gray-600">
+                    Click to change images
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-2">
                   <Upload className="mx-auto w-12 h-12 text-gray-400" />
-                  <p className="text-gray-600">Click to upload image</p>
+                  <p className="text-gray-600">Click to upload images</p>
                 </div>
               )}
             </label>
           </div>
         </div>
 
+        {/* --- hot deal --- */}
         <div className="flex items-center">
           <input
             type="checkbox"
@@ -242,6 +500,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           </label>
         </div>
 
+        {/* --- buttons --- */}
         <div className="flex gap-4 pt-4">
           <button
             onClick={handleSubmit}
@@ -261,11 +520,6 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
             Cancel
           </button>
         </div>
-        {/* </div>lg font-semibold hover:bg-gray-50 transition-colors"
-        >
-          Cancel
-        </button>
-      </div> */}
       </form>
     </div>
   );
@@ -295,10 +549,15 @@ const ProductCard = ({ product, onEdit, onDelete }) => {
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
       <div className="relative">
         <img
-          src={product.image}
-          alt={product.title}
+          src={
+            product?.images?.length > 0
+              ? product.images[0].url // first image from array
+              : "/placeholder.png" // fallback if no image
+          }
+          alt={product?.title || "Product image"}
           className="w-full h-48 object-cover"
         />
+
         {product.inHotDeal && (
           <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
             <Star className="w-3 h-3 inline mr-1" />

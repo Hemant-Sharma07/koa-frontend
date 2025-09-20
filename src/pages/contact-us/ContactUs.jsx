@@ -7,6 +7,7 @@ import {
   FiUser,
   FiMessageSquare,
 } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 export default function ContactUs() {
   const [form, setForm] = useState({
@@ -15,8 +16,81 @@ export default function ContactUs() {
     phone: "",
     message: "",
   });
+  const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const isLive = false;
+  const baseUrl = !isLive
+    ? "http://localhost:5000"
+    : "https://koa-backend-gaqt.onrender.com";
+
+  // ✅ Validation function
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!form?.name || form.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters long";
+    }
+
+    if (!form?.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!form?.phone || !/^[0-9]{10}$/.test(form.phone)) {
+      newErrors.phone = "Phone number must be 10 digits";
+    }
+
+    if (!form?.message || form.message.trim().length < 5) {
+      newErrors.message = "Message should be at least 5 characters long";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // ✅ Handle form change + remove errors instantly
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(`${baseUrl}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const res = await response.json();
+
+      if (!res.success) {
+        throw new Error("Failed to send message");
+      } else {
+        toast.success("Message sent successfully");
+        setSuccess(true);
+        setForm({ name: "", email: "", phone: "", message: "" });
+        setErrors({});
+      }
+    } catch (error) {
+      console.error("Contact form error:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const contactCards = [
     {
@@ -37,26 +111,13 @@ export default function ContactUs() {
     },
   ];
 
-  //   GG-31-A, Sector 2, VIDHYADHAR ENCLAVE –II,
-  // Central Spine, Vidyadhar Nagar, Jaipur, Rajasthan 302039
-
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSuccess(true);
-    setForm({ name: "", email: "", phone: "", message: "" });
-    setTimeout(() => setSuccess(false), 5000);
-  };
-
   return (
-    <div className="min-h-screen ">
-      <div className=" mx-auto px-4 py-6 md:p-10">
+    <div className="min-h-screen">
+      <div className="mx-auto px-4 py-6 md:p-10">
         {/* Hero Section */}
         <div
           className={`text-center mb-16 transition-all duration-1000 ${
@@ -66,7 +127,7 @@ export default function ContactUs() {
           <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent mb-6">
             Get In Touch
           </h1>
-          <p className="text-gray-600 text-xl  mx-auto leading-relaxed text-justify'">
+          <p className="text-gray-600 text-xl mx-auto leading-relaxed">
             Ready to transform your snacking experience? We're here to help with
             questions, feedback, or just a friendly chat about healthy living.
           </p>
@@ -78,7 +139,7 @@ export default function ContactUs() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          {contactCards.map((card, idx) => (
+          {contactCards.map((card) => (
             <div
               key={card.title}
               className="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 border border-orange-100"
@@ -113,10 +174,10 @@ export default function ContactUs() {
               </p>
             </div>
 
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
-                {/* Name Field */}
-                <div className="relative">
+                {/* Name */}
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name <span className="text-orange-500">*</span>
                   </label>
@@ -125,17 +186,23 @@ export default function ContactUs() {
                     <input
                       type="text"
                       name="name"
-                      required
                       value={form.name}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-300 bg-white/50"
+                      className={`w-full pl-12 pr-4 py-4 border rounded-xl focus:outline-none transition-all duration-300 ${
+                        errors.name
+                          ? "border-red-500 focus:ring-red-100"
+                          : "border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                      }`}
                       placeholder="Enter your full name"
                     />
                   </div>
+                  {errors.name && (
+                    <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                  )}
                 </div>
 
-                {/* Phone Field */}
-                <div className="relative">
+                {/* Phone */}
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Phone Number
                   </label>
@@ -146,15 +213,22 @@ export default function ContactUs() {
                       name="phone"
                       value={form.phone}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-300 bg-white/50"
+                      className={`w-full pl-12 pr-4 py-4 border rounded-xl focus:outline-none transition-all duration-300 ${
+                        errors.phone
+                          ? "border-red-500 focus:ring-red-100"
+                          : "border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                      }`}
                       placeholder="Enter your phone number"
                     />
                   </div>
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                  )}
                 </div>
               </div>
 
-              {/* Email Field */}
-              <div className="relative">
+              {/* Email */}
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address <span className="text-orange-500">*</span>
                 </label>
@@ -163,17 +237,23 @@ export default function ContactUs() {
                   <input
                     type="email"
                     name="email"
-                    required
                     value={form.email}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-300 bg-white/50"
+                    className={`w-full pl-12 pr-4 py-4 border rounded-xl focus:outline-none transition-all duration-300 ${
+                      errors.email
+                        ? "border-red-500 focus:ring-red-100"
+                        : "border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                    }`}
                     placeholder="Enter your email address"
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
               </div>
 
-              {/* Message Field */}
-              <div className="relative">
+              {/* Message */}
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Your Message <span className="text-orange-500">*</span>
                 </label>
@@ -181,27 +261,32 @@ export default function ContactUs() {
                   <FiMessageSquare className="absolute left-4 top-6 text-gray-400" />
                   <textarea
                     name="message"
-                    required
                     value={form.message}
                     onChange={handleChange}
                     rows={5}
-                    className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-300 bg-white/50 resize-none"
+                    className={`w-full pl-12 pr-4 py-4 border rounded-xl focus:outline-none transition-all duration-300 resize-none ${
+                      errors.message
+                        ? "border-red-500 focus:ring-red-100"
+                        : "border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                    }`}
                     placeholder="Tell us how we can help you..."
                   />
                 </div>
+                {errors.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                )}
               </div>
 
-              {/* Submit Button */}
+              {/* Submit */}
               <button
-                type="button"
-                onClick={handleSubmit}
-                className="w-full bg-orange-600 text-white rounded-xl py-4 px-8 font-semibold text-lg hover:from-orange-600 hover:to-amber-600 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                type="submit"
+                disabled={loading}
+                className="w-full bg-orange-600 text-white rounded-xl py-4 px-8 font-semibold text-lg transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 disabled:opacity-70"
               >
                 <FiSend className="text-xl" />
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </button>
 
-              {/* Success Message */}
               {success && (
                 <div className="text-center mt-6 p-4 bg-green-50 border border-green-200 rounded-xl">
                   <div className="text-green-700 font-semibold flex items-center justify-center gap-2">
@@ -212,7 +297,7 @@ export default function ContactUs() {
                   </div>
                 </div>
               )}
-            </div>
+            </form>
           </div>
         </div>
       </div>

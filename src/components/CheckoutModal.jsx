@@ -17,7 +17,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const isLive = true
+  const isLive = false
 
   const baseUrl = !isLive ? "http://localhost:5000" : "https://koa-backend-gaqt.onrender.com"
 
