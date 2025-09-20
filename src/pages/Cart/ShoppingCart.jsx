@@ -6,6 +6,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import CheckoutModal from "../../components/CheckoutModal";
 import { toast } from "react-toastify";
 import { useUserAuth } from "../../context/userAuthContext";
+import { useNavigate } from "react-router-dom";
 
 const PICKUP_FEE = 99;
 const TAX = 10;
@@ -13,17 +14,21 @@ const TAX = 10;
 const ShoppingCart = () => {
   const { cartItems, updateQuantity, removeFromCart, cartLoading } = useCart();
   const [showCheckout, setShowCheckout] = useState(false);
-   const { user } = useUserAuth()
+
+  const navigate = useNavigate();
+  const { user } = useUserAuth();
+
   const handleBuyNow = () => {
-    if(user  ){
-      if(cartItems?.length !== 0){
+    if (user) {
+      if (cartItems?.length !== 0) {
         setShowCheckout(true);
-      }else{
-        toast.error("Please Select Items")
+      } else {
+        toast.error("Please Select Items");
       }
-    }else{
-        toast.error("Please Login")
-      }
+    } else {
+      navigate("/login");
+      toast.error("Please Login");
+    }
   };
 
   if (cartLoading) {

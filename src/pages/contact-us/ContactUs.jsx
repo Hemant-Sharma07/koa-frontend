@@ -3,8 +3,6 @@ import {
   FiMail,
   FiPhone,
   FiMapPin,
-  FiInstagram,
-  FiFacebook,
   FiSend,
   FiUser,
   FiMessageSquare,

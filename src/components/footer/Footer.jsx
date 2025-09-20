@@ -62,7 +62,7 @@ const Footer = () => {
           transition={{ duration: 0.8 }}
         >
           <img
-            src="/KOALogo.jpeg"
+            src="/logoBG.png"
             alt="Logo"
             className="h-40 w-full object-contain mx-auto mb-4"
           />

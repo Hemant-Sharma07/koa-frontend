@@ -296,7 +296,7 @@ const ProductOverview = () => {
             <div className="mt-4">
               <div className="flex items-baseline flex-wrap gap-4">
                 <span className="text-orange-600 text-md md:text-2xl font-bold">
-                  ₹{(selectedWeight?.price || product.newPrice) * quantity}
+                  ₹{selectedWeight?.price || product.newPrice}
                 </span>
 
                 {product.oldPrice &&
@@ -400,11 +400,11 @@ const ProductOverview = () => {
           </div>
 
           {/* Description (Mobile/Tablet) */}
-          <div className="mt-8 hidden lg:block w-full">
+          <div className="mt-8 w-full">
             <h3 className="text-lg font-semibold text-orange-700">
               Product Description
             </h3>
-            <p className="text-base text-slate-600 mt-4">
+            <p className="text-base text-slate-600 mt-4 text-justify">
               {product.description}
             </p>
             {product.highlights?.length > 0 && (

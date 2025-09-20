@@ -21,55 +21,24 @@ const Navbar = () => {
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useUserAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
-    navigate('/')
-    logout()
-  }
+    navigate("/");
+    logout();
+  };
 
   // FIX 1: Use cart item count for icon
   const { cartItems } = useCart();
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  const categories = {
-    nuts: [
-      "Almonds",
-      "Cashews",
-      "Walnuts",
-      "Pistachios",
-      "Hazelnuts",
-      "Pecans",
-      "Brazil Nuts",
-      "Macadamia",
-    ],
-    driedFruits: [
-      "Raisins",
-      "Dates",
-      "Apricots",
-      "Figs",
-      "Prunes",
-      "Cranberries",
-      "Mango",
-      "Pineapple",
-    ],
-    seeds: [
-      "Pumpkin Seeds",
-      "Sunflower Seeds",
-      "Chia Seeds",
-      "Flax Seeds",
-      "Sesame Seeds",
-      "Watermelon Seeds",
-    ],
-    mixes: [
-      "Trail Mix",
-      "Student Mix",
-      "Energy Mix",
-      "Protein Mix",
-      "Premium Mix",
-      "Custom Mix",
-    ],
-  };
+  const categories = [
+    "Curated Nuts & Delicacies",
+    "Curated Dry Fruits",
+    "Organic Seeds",
+    "Saffron Collection",
+    "Indian Spices",
+  ];
 
   const dropdownRef = useRef(null);
 
@@ -150,12 +119,12 @@ const Navbar = () => {
               >
                 <Link to="/" className="flex items-center gap-1 md:gap-4">
                   <img
-                    src="/KOALogo.jpeg"
+                    src="/logoBG.png"
                     alt=""
-                    className="h-6 w-6 md:h-8 md:w-8"
+                    className="h-6 w-6 md:h-10 md:w-10"
                   />
                   <p className="text-2xl md:text-3xl font-bold text-orange-600 tracking-wider">
-                    K<span className="text-black">O</span>A
+                    K<span className="text-orange-600">O</span>A
                   </p>
                 </Link>
               </motion.div>
@@ -185,47 +154,28 @@ const Navbar = () => {
                   <AnimatePresence>
                     {desktopMenuOpen && (
                       <motion.div
-                        className="absolute left-0 top-full mt-2 w-[60vw] max-w-md md:max-w-2xl lg:max-w-4xl bg-white shadow-lg rounded-md z-50 border border-gray-200 lg:transform lg:-translate-x-1/4"
+                        className="absolute left-0 top-full mt-2 w-56 bg-white shadow-lg rounded-md z-50 border border-gray-200"
                         initial="hidden"
                         animate="visible"
                         exit="exit"
                         variants={desktopMenuVariants}
                         transition={{ duration: 0.2 }}
                       >
-                        <div className="p-4 md:p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                          {Object.entries(categories).map(
-                            ([category, items]) => (
-                              <div
-                                key={category}
-                                className="space-y-3 md:space-y-4"
+                        <ul className="py-2">
+                          {categories.map((category) => (
+                            <li key={category}>
+                              <Link
+                                to={`/products/${category
+                                  .toLowerCase()
+                                  .replace(/\s+/g, "-")}`}
+                                onClick={() => setDesktopMenuOpen(false)}
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition"
                               >
-                                <h3 className="text-base md:text-lg font-semibold text-gray-900 border-b pb-1 md:pb-2">
-                                  {category.charAt(0).toUpperCase() +
-                                    category
-                                      .slice(1)
-                                      .replace(/([A-Z])/g, " $1")}
-                                </h3>
-                                <ul className="space-y-1 md:space-y-2">
-                                  {items.map((item) => (
-                                    <li key={item}>
-                                      <Link
-                                        to={`/products/${item
-                                          .toLowerCase()
-                                          .replace(/\s+/g, "-")}`}
-                                        onClick={() =>
-                                          setDesktopMenuOpen(false)
-                                        }
-                                        className="text-sm md:text-md text-gray-700 hover:text-orange-500 transition-colors"
-                                      >
-                                        {item}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )
-                          )}
-                        </div>
+                                {category}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -248,7 +198,7 @@ const Navbar = () => {
 
             {/* Right side icons */}
             <div className="flex items-center">
-              <div className="hidden lg:flex lg:items-center lg:space-x-6">
+              <div className="flex items-center space-x-6">
                 <div className="relative inline-block">
                   {!user && (
                     <Link
@@ -261,13 +211,15 @@ const Navbar = () => {
 
                   {user && (
                     <div
-                      className="relative"
+                      className="hidden sm:block relative"
                       onMouseEnter={() => setIsOpen(true)}
                       onMouseLeave={() => setIsOpen(false)}
                     >
                       <button className="text-md font-medium text-gray-900 hover:text-orange-500 flex items-center focus:outline-none">
-                        <FiUser size={18} className="mr-1" />{" "}
-                        {user?.displayName}
+                        <FiUser size={18} className="mr-1" />
+                        <span className="hidden sm:inline">
+                          {user?.displayName}
+                        </span>
                       </button>
                       {isOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
@@ -280,28 +232,21 @@ const Navbar = () => {
                                 {user.email}
                               </p>
                             </div>
+                            {/* <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                              <FiSettings size={16} className="mr-2" /> Profile
+                            </button> */}
                             <button
-                              // onClick={handleProfile}
+                              onClick={() => navigate("/orders")}
                               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                             >
-                              <FiSettings size={16} className="mr-2" />
-                              Profile
-                            </button>
-                             <button
-                              onClick={()=>navigate('/orders')}
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                            >
-                              <CiBookmarkCheck size={16} className="mr-2" />
+                              <CiBookmarkCheck size={16} className="mr-2" />{" "}
                               Orders
                             </button>
-
                             <button
                               onClick={logoutHandler}
-
                               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                             >
-                              <FiLogOut size={16} className="mr-2" />
-                              Logout
+                              <FiLogOut size={16} className="mr-2" /> Logout
                             </button>
                           </div>
                         </div>
@@ -311,10 +256,10 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <div className="ml-4 flow-root lg:ml-6">
+              <div className="ml-4 lg:ml-6 flex gap-2 items-center flex-row-reverse ">
                 <motion.div whileHover={{ scale: 1.1 }}>
                   <Link to="/cart" className="group -m-2 flex items-center p-2">
-                    <FiShoppingCart className="h-6 w-6 shrink-0 text-gray-500 group-hover:text-orange-500" />
+                    <FiShoppingCart className="sm:h-6 sm:w-6 w-5 h-5 shrink-0 text-gray-500 group-hover:text-orange-500" />
                     <span
                       className={`ml-2 text-sm font-medium ${
                         cartCount > 0
@@ -327,6 +272,36 @@ const Navbar = () => {
                     <span className="sr-only">items in cart</span>
                   </Link>
                 </motion.div>
+                {/* Mobile User Menu */}
+                <div className="sm:hidden relative">
+                  <button
+                    onClick={() => setIsOpen((prev) => !prev)}
+                    className="p-2 text-gray-500 hover:text-orange-500"
+                  >
+                    <FiUser size={20} />
+                  </button>
+                  {isOpen && (
+                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                      <div className="py-1">
+                        {/* <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                          <FiSettings size={16} className="mr-2" /> Profile
+                        </button> */}
+                        <button
+                          onClick={() => navigate("/orders")}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                        >
+                          <CiBookmarkCheck size={16} className="mr-2" /> Orders
+                        </button>
+                        <button
+                          onClick={logoutHandler}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                        >
+                          <FiLogOut size={16} className="mr-2" /> Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -356,7 +331,7 @@ const Navbar = () => {
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
             >
               <div className="flex h-screen flex-col overflow-y-auto pb-12 z-50 bg-white">
-                <div className="flex justify-between">
+                <div className="flex justify-between border-b">
                   <div className="flex px-4 pb-2 pt-5 justify-start">
                     <Link
                       to="/"
@@ -386,7 +361,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="mt-2">
-                  <div className="border-b border-gray-200">
+                  {/* <div className="border-b border-gray-200">
                     <div className="-mb-px flex space-x-8 px-4 overflow-x-auto">
                       {Object.keys(categories).map((category) => (
                         <button
@@ -403,19 +378,23 @@ const Navbar = () => {
                         </button>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Show product category links (like tabs) */}
-                  <motion.div
-                    className="space-y-6 px-4 pb-8 pt-6"
-                    key={activeTab}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {renderCategoryList(categories[activeTab])}
-                  </motion.div>
+                  <div className="space-y-3 px-4 pb-8 pt-6">
+                    {categories.map((category) => (
+                      <Link
+                        key={category}
+                        to={`/products/${category
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block p-2 text-gray-900 font-medium hover:text-orange-500"
+                      >
+                        {category}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
 
                 {/* FIX 2: Add About Us, Contact Us, Login links outside product tabs */}
@@ -438,7 +417,7 @@ const Navbar = () => {
                       Contact Us
                     </Link>
                   </div>
-                  <div className="flow-root">
+                  {/* <div className="flow-root">
                     <Link
                       to="/login"
                       className="-m-2 block p-2 font-medium text-gray-900 hover:text-orange-500 flex items-center"
@@ -446,7 +425,7 @@ const Navbar = () => {
                     >
                       <FiUser className="mr-2" /> Log In
                     </Link>
-                  </div>
+                  </div> */}
                   {/* <div className="flow-root">
                     <Link
                       to="/cart"
