@@ -25,6 +25,8 @@ const OrderManagement = () => {
       ? orders
       : orders.filter((order) => order.status === filter);
 
+      console.log("filteredOrders",filteredOrders)
+
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":
@@ -74,6 +76,9 @@ const OrderManagement = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Customer
                 </th>
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Address
+                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Amount
                 </th>
@@ -82,6 +87,15 @@ const OrderManagement = () => {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date
+                </th>
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Pincode
+                </th>
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  City
+                </th>
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  State
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -98,10 +112,19 @@ const OrderManagement = () => {
                     <div className="text-sm text-gray-900">
                       {order.userDetails.name}
                     </div>
+                    <div className="text-sm text-gray-900">
+                      {order.userDetails.phone}
+                    </div>
                     <div className="text-sm text-gray-500">
                       {order.userEmail}
                     </div>
                   </td>
+                  <td className="px-6 py-4 text-sm text-gray-900 whitespace-normal">
+  <div className="w-[100px] break-words">
+    {order.userDetails.address}
+  </div>
+</td>
+
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     ₹{order.totalAmount}
                   </td>
@@ -117,6 +140,21 @@ const OrderManagement = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {order.createdAt?.toDate?.()?.toLocaleDateString() || "N/A"}
                   </td>
+                   <td className="px-6 py-4 text-sm text-gray-900 whitespace-normal">
+  <div className=" break-words">
+    {order.userDetails?.pincode}
+  </div>
+</td>
+ <td className="px-6 py-4 text-sm text-gray-900 whitespace-normal">
+  <div className=" break-words">
+    {order.userDetails?.city}
+  </div>
+</td>
+ <td className="px-6 py-4 text-sm text-gray-900 whitespace-normal">
+  <div className=" break-words">
+    {order.userDetails?.state}
+  </div>
+</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <select
                       value={order.status}

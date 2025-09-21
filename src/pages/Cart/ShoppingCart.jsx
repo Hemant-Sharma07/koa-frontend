@@ -12,7 +12,7 @@ const PICKUP_FEE = 99;
 const TAX = 10;
 
 const ShoppingCart = () => {
-  const { cartItems, updateQuantity, removeFromCart, cartLoading } = useCart();
+  const { cartItems,setCartItems, updateQuantity, removeFromCart, cartLoading } = useCart();
   const [showCheckout, setShowCheckout] = useState(false);
 
   const navigate = useNavigate();
@@ -130,6 +130,7 @@ const ShoppingCart = () => {
         isOpen={showCheckout}
         onClose={() => setShowCheckout(false)}
         cartItems={cartItems}
+        setCartItems={setCartItems}
         totalAmount={total}
       />
     </section>

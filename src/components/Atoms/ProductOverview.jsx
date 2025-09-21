@@ -247,7 +247,7 @@ const ProductOverview = () => {
         <div className="w-full flex flex-col items-center">
           <div className="relative max-w-md aspect-square rounded-lg overflow-hidden">
             <img
-              src={product.image}
+src={product.images?.find((_, idx) => idx === mainImgIdx)?.url}
               alt="Main Product"
               className="w-full h-full object-contain object-center transition-all duration-300 rounded-md"
             />
@@ -270,7 +270,7 @@ const ProductOverview = () => {
                   aria-label={`Show image ${idx + 1}`}
                 >
                   <img
-                    src={img || product.image}
+                    src={img?.url || product.image}
                     alt={`Thumbnail ${idx + 1}`}
                     className="w-12 h-12 sm:w-14 sm:h-14 object-cover object-center rounded"
                   />

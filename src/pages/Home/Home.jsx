@@ -108,7 +108,7 @@ const Home = () => {
                   <ProductCard
                     id={uid}
                     key={uid}
-                    imageUrl={product.image}
+                    imageUrl={product?.images[0]?.url}
                     brand={product.category}
                     productName={product.title}
                     currentPrice={product.newPrice}

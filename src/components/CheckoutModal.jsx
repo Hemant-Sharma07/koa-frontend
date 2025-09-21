@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useOrder } from "../context/OrderContext";
 import { useUserAuth } from "../context/userAuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
+const CheckoutModal = ({ isOpen, onClose, cartItems, setCartItems, totalAmount }) => {
   const { createOrder, updateOrderStatus } = useOrder();
   const { user } = useUserAuth(); // Get current user
   const [userDetails, setUserDetails] = useState({
@@ -17,7 +18,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const isLive = false
+  const isLive = true
 
   const baseUrl = !isLive ? "http://localhost:5000" : "https://koa-backend-gaqt.onrender.com"
 
@@ -45,7 +46,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
 
   const handlePayment = async () => {
     if (!validateForm()) {
-      alert("Please fill all required fields");
+      toast.error("Please fill all required fields");
       return;
     }
 
@@ -71,13 +72,13 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
       const orderData = await response.json();
 
       if (!orderData.success) {
-        throw new Error("Failed to create order");
+        toast.error("Failed to create order");
       }
 
       // Initialize Razorpay
       const isRazorpayLoaded = await initializeRazorpay();
       if (!isRazorpayLoaded) {
-        alert("Razorpay SDK failed to load");
+        toast.error("Razorpay SDK failed to load");
         return;
       }
 
@@ -112,11 +113,13 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
           if (verifyData.success) {
             toast.success("Payment successful!");
             navigate("/orders");
+            setUserDetails({})
             onClose();
 
-            // Clear cart here if needed
+            setCartItems([])
           } else {
             toast.error("Payment verification failed!");
+
           }
         },
         prefill: {
@@ -148,7 +151,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
       razorpay.open();
     } catch (error) {
       console.error("Payment error:", error);
-      alert("Payment failed. Please try again.");
+      toast.error("Payment failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -197,7 +200,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
               placeholder="Full Name *"
               value={userDetails.name}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-600"
               required
             />
 
@@ -207,7 +210,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
               placeholder="Phone Number *"
               value={userDetails.phone}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-600"
               required
             />
 
@@ -216,7 +219,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
               placeholder="Address *"
               value={userDetails.address}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-600"
               rows="3"
               required
             />
@@ -228,7 +231,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
                 placeholder="City *"
                 value={userDetails.city}
                 onChange={handleInputChange}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-600"
                 required
               />
 
@@ -238,7 +241,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
                 placeholder="Pincode *"
                 value={userDetails.pincode}
                 onChange={handleInputChange}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-600"
                 required
               />
             </div>
@@ -249,7 +252,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
               placeholder="State *"
               value={userDetails.state}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-600"
               required
             />
           </div>
@@ -257,7 +260,7 @@ const CheckoutModal = ({ isOpen, onClose, cartItems, totalAmount }) => {
           <button
             onClick={handlePayment}
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50"
+            className="w-full bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 disabled:opacity-50"
           >
             {loading ? "Processing..." : `Pay ₹${totalAmount}`}
           </button>

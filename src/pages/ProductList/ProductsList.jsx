@@ -77,7 +77,7 @@ const ProductsList = () => {
             <ProductCard
               key={product.id}
               id={product.id}
-              imageUrl={product.image}
+              imageUrl={product?.images[0]?.url}
               brand={product.brand || ""}
               productName={product.title}
               currentPrice={product.newPrice}
