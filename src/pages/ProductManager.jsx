@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useProduct } from "../context/productContext";
 import { FaRupeeSign } from "react-icons/fa";
+import ConfirmationModal from "../components/Atoms/ConfirmationModal";
 
 const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
@@ -525,107 +526,61 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
   );
 };
 
-const ProductCard = ({ product, onEdit, onDelete }) => {
+const ProductCard = ({
+  product,
+  onEdit,
+  onDelete,
+  isRefresh,
+  setIsRefresh,
+}) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  // console.log("product", product);
-
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
+  const handleConfirmDelete = async () => {
+    try {
       setIsDeleting(true);
       await onDelete(product.id);
+      setIsRefresh(!isRefresh);
+    } finally {
       setIsDeleting(false);
+      setShowConfirm(false);
     }
   };
 
-  const discount =
-    product.oldPrice && product.newPrice
-      ? Math.round(
-          ((product.oldPrice - product.newPrice) / product.oldPrice) * 100
-        )
-      : 0;
-
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+      {/* Product Image */}
       <div className="relative">
         <img
           src={
             product?.images?.length > 0
-              ? product.images[0].url // first image from array
-              : "/placeholder.png" // fallback if no image
+              ? product.images[0].url
+              : "/placeholder.png"
           }
           alt={product?.title || "Product image"}
           className="w-full h-48 object-cover"
         />
-
-        {product.inHotDeal && (
-          <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-            <Star className="w-3 h-3 inline mr-1" />
-            Hot Deal
-          </div>
-        )}
-        {discount > 0 && (
-          <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-sm font-bold">
-            -{discount}%
-          </div>
-        )}
-        <div className="absolute bottom-3 right-3 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-xs">
-          Stock: {product.stock}
-        </div>
       </div>
 
+      {/* Content */}
       <div className="p-5">
-        <div className="mb-3">
-          <h3 className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">
-            {product.title}
-          </h3>
-          <p className="text-gray-600 text-sm line-clamp-2">
-            {product.description}
-          </p>
-        </div>
+        <h3 className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">
+          {product.title}
+        </h3>
+        <p className="text-gray-600 text-sm line-clamp-2">
+          {product.description}
+        </p>
 
-        <div className="mb-3">
-          <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">
-            {product.category}
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            {product.oldPrice && (
-              <span className="text-gray-400 line-through text-sm">
-                ₹{product.oldPrice}
-              </span>
-            )}
-            <span className="text-xl font-bold text-green-600">
-              ₹{product.newPrice}
-            </span>
-          </div>
-          <div
-            className={`px-2 py-1 rounded-full text-xs font-medium ₹{
-            product.stock > 50 ? 'bg-green-100 text-green-800' :
-            product.stock > 10 ? 'bg-yellow-100 text-yellow-800' :
-            'bg-red-100 text-red-800'
-          }`}
-          >
-            {product.stock > 50
-              ? "In Stock"
-              : product.stock > 0
-              ? "Low Stock"
-              : "Out of Stock"}
-          </div>
-        </div>
-
-        <div className="flex gap-2">
+        {/* Buttons */}
+        <div className="flex gap-2 mt-4">
           <button
             onClick={() => onEdit(product)}
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
           >
-            <Edit3 className="w-4 h-4" />
-            Edit
+            <Edit3 className="w-4 h-4" /> Edit
           </button>
           <button
-            onClick={handleDelete}
+            onClick={() => setShowConfirm(true)}
             disabled={isDeleting}
             className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
@@ -634,6 +589,18 @@ const ProductCard = ({ product, onEdit, onDelete }) => {
           </button>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleConfirmDelete}
+        heading="Delete Product?"
+        description="This action cannot be undone."
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+        loading={isDeleting}
+      />
     </div>
   );
 };
@@ -648,6 +615,7 @@ const ProductManagementSystem = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const categories = [
     "Nuts",
@@ -675,7 +643,7 @@ const ProductManagementSystem = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [isRefresh]);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -828,6 +796,8 @@ const ProductManagementSystem = () => {
                 product={product}
                 onEdit={handleEdit}
                 onDelete={deleteProduct}
+                setIsRefresh={setIsRefresh}
+                isRefresh={isRefresh}
               />
             ))}
           </div>

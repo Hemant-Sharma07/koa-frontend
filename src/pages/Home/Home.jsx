@@ -59,6 +59,8 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  console.log(111111111, products);
+
   const nutsProducts = products.filter(
     (product) => product.category === "Nuts"
   );
@@ -103,12 +105,16 @@ const Home = () => {
           >
             {nutsProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
+              const imageUrl =
+                product.images && product.images.length > 0
+                  ? product.images[0].url
+                  : "/placeholder.png";
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
                   <ProductCard
                     id={uid}
                     key={uid}
-                    imageUrl={product?.images[0]?.url}
+                    imageUrl={imageUrl}
                     brand={product.category}
                     productName={product.title}
                     currentPrice={product.newPrice}
@@ -131,42 +137,6 @@ const Home = () => {
         <div className="px-3 md:px-9 " data-aos="fade-right">
           <OurVision />
         </div>
-        {/* <div>
-          <PageHeader
-            heading="Curated Dry Fruits"
-            onClick={() => handleViewAll("Dry Fruits")}
-          />
-          <section
-            className="mx-auto w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-10 mb-5 px-3 sm:px-6 justify-items-center"
-            data-aos="fade-left"
-          >
-            {dryFruitsProducts.slice(0, 4).map((product) => {
-              const uid = product.id || product._id;
-              return (
-                <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
-                  <ProductCard
-                    id={uid}
-                    key={uid}
-                    imageUrl={product.image}
-                    brand={product.category}
-                    productName={product.title}
-                    currentPrice={product.newPrice}
-                    originalPrice={product.oldPrice}
-                    onAddToCart={() =>
-                      addToCart({
-                        id: uid,
-                        name: product.title,
-                        price: product.newPrice,
-                        oldPrice: product.oldPrice,
-                        imageLight: product.image,
-                      })
-                    }
-                  />
-                </div>
-              );
-            })}
-          </section>
-        </div> */}
         <div>
           <PageHeader
             heading="Curated Dry Fruits"
@@ -178,12 +148,16 @@ const Home = () => {
           >
             {dryFruitsProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
+              const imageUrl =
+                product.images && product.images.length > 0
+                  ? product.images[0].url
+                  : "/placeholder.png";
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
                   <ProductCard
                     id={uid}
                     key={uid}
-                    imageUrl={product.image}
+                    imageUrl={imageUrl}
                     brand={product.category}
                     productName={product.title}
                     currentPrice={product.newPrice}
@@ -214,12 +188,16 @@ const Home = () => {
           >
             {seedsProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
+              const imageUrl =
+                product.images && product.images.length > 0
+                  ? product.images[0].url
+                  : "/placeholder.png";
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
                   <ProductCard
                     id={uid}
                     key={uid}
-                    imageUrl={product.image}
+                    imageUrl={imageUrl}
                     brand={product.category}
                     productName={product.title}
                     currentPrice={product.newPrice}
@@ -251,12 +229,16 @@ const Home = () => {
           >
             {saffronProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
+              const imageUrl =
+                product.images && product.images.length > 0
+                  ? product.images[0].url
+                  : "/placeholder.png";
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
                   <ProductCard
                     id={uid}
                     key={uid}
-                    imageUrl={product.image}
+                    imageUrl={imageUrl}
                     brand={product.category}
                     productName={product.title}
                     currentPrice={product.newPrice}
@@ -287,12 +269,16 @@ const Home = () => {
           >
             {indianSpicesProducts.slice(0, 4).map((product) => {
               const uid = product.id || product._id;
+              const imageUrl =
+                product.images && product.images.length > 0
+                  ? product.images[0].url
+                  : "/placeholder.png";
               return (
                 <div key={uid} className="w-full max-w-[250px] sm:max-w-none">
                   <ProductCard
                     id={uid}
                     key={uid}
-                    imageUrl={product.image}
+                    imageUrl={imageUrl}
                     brand={product.category}
                     productName={product.title}
                     currentPrice={product.newPrice}
