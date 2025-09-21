@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useProduct } from "../context/productContext";
 import { FaRupeeSign } from "react-icons/fa";
+import ConfirmationModal from "../components/Atoms/ConfirmationModal";
 
 const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
@@ -37,6 +38,241 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
+// const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
+//   const [formData, setFormData] = useState({
+//     title: product?.title || "",
+//     description: product?.description || "",
+//     category: product?.category || "",
+//     oldPrice: product?.oldPrice || "",
+//     newPrice: product?.newPrice || "",
+//     stock: product?.stock || "",
+//     inHotDeal: product?.inHotDeal || false,
+//   });
+
+//   const [imageFile, setImageFile] = useState(null);
+//   const [previewUrl, setPreviewUrl] = useState(product?.image || "");
+
+//   const categories = [
+//     "Nuts",
+//     "Dry Fruits",
+//     "Seeds",
+//     "Saffron",
+//     "Indian Spices",
+//   ];
+
+//   const handleInputChange = (e) => {
+//     const { name, value, type, checked } = e.target;
+//     setFormData((prev) => ({
+//       ...prev,
+//       [name]: type === "checkbox" ? checked : value,
+//     }));
+//   };
+
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       setImageFile(file);
+//       const reader = new FileReader();
+//       reader.onloadend = () => setPreviewUrl(reader.result);
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const result = await onSubmit(formData, imageFile);
+//     if (result.success) {
+//       onCancel();
+//     }
+//   };
+
+//   return (
+//     <div className="space-y-6">
+//       <form>
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <Package className="w-4 h-4 inline mr-2" />
+//               Product Title
+//             </label>
+//             <input
+//               type="text"
+//               name="title"
+//               value={formData.title}
+//               onChange={handleInputChange}
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="Enter product title"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <Tag className="w-4 h-4 inline mr-2" />
+//               Category
+//             </label>
+//             <select
+//               name="category"
+//               value={formData.category}
+//               onChange={handleInputChange}
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//             >
+//               <option value="">Select Category</option>
+//               {categories.map((category) => (
+//                 <option key={category} value={category}>
+//                   {category}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-semibold text-gray-700 mb-2">
+//             Description
+//           </label>
+//           <textarea
+//             name="description"
+//             value={formData.description}
+//             onChange={handleInputChange}
+//             required
+//             rows={4}
+//             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//             placeholder="Enter product description"
+//           />
+//         </div>
+
+//         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <DollarSign className="w-4 h-4 inline mr-2" />
+//               Old Price
+//             </label>
+//             <input
+//               type="number"
+//               name="oldPrice"
+//               value={formData.oldPrice}
+//               onChange={handleInputChange}
+//               step="0.01"
+//               min="0"
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="0.00"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               <DollarSign className="w-4 h-4 inline mr-2" />
+//               New Price
+//             </label>
+//             <input
+//               type="number"
+//               name="newPrice"
+//               value={formData.newPrice}
+//               onChange={handleInputChange}
+//               step="0.01"
+//               min="0"
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="0.00"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-sm font-semibold text-gray-700 mb-2">
+//               Stock Quantity
+//             </label>
+//             <input
+//               type="number"
+//               name="stock"
+//               value={formData.stock}
+//               onChange={handleInputChange}
+//               min="0"
+//               required
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+//               placeholder="0"
+//             />
+//           </div>
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-semibold text-gray-700 mb-2">
+//             <ImageIcon className="w-4 h-4 inline mr-2" />
+//             Product Image
+//           </label>
+//           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+//             <input
+//               type="file"
+//               accept="image/*"
+//               onChange={handleImageChange}
+//               className="hidden"
+//               id="image-upload"
+//               multiple='trues'
+//             />
+//             <label htmlFor="image-upload" className="cursor-pointer">
+//               {previewUrl ? (
+//                 <div className="space-y-2">
+//                   <img
+//                     src={previewUrl}
+//                     alt="Preview"
+//                     className="mx-auto w-32 h-32 object-cover rounded-lg border-2 border-gray-200"
+//                   />
+//                   <p className="text-sm text-gray-600">Click to change image</p>
+//                 </div>
+//               ) : (
+//                 <div className="space-y-2">
+//                   <Upload className="mx-auto w-12 h-12 text-gray-400" />
+//                   <p className="text-gray-600">Click to upload image</p>
+//                 </div>
+//               )}
+//             </label>
+//           </div>
+//         </div>
+
+//         <div className="flex items-center">
+//           <input
+//             type="checkbox"
+//             name="inHotDeal"
+//             checked={formData.inHotDeal}
+//             onChange={handleInputChange}
+//             className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
+//           />
+//           <label className="ml-3 text-sm font-semibold text-gray-700">
+//             <Star className="w-4 h-4 inline mr-1 text-red-500" />
+//             Mark as Hot Deal
+//           </label>
+//         </div>
+
+//         <div className="flex gap-4 pt-4">
+//           <button
+//             onClick={handleSubmit}
+//             disabled={loading}
+//             className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+//           >
+//             {loading
+//               ? "Processing..."
+//               : product
+//               ? "Update Product"
+//               : "Add Product"}
+//           </button>
+//           <button
+//             onClick={onCancel}
+//             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+//           >
+//             Cancel
+//           </button>
+//         </div>
+//         {/* </div>lg font-semibold hover:bg-gray-50 transition-colors"
+//         >
+//           Cancel
+//         </button>
+//       </div> */}
+//       </form>
+//     </div>
+//   );
+// };
+
 const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
   const [formData, setFormData] = useState({
     title: product?.title || "",
@@ -48,8 +284,9 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
     inHotDeal: product?.inHotDeal || false,
   });
 
-  const [imageFile, setImageFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(product?.image || "");
+  // 🔹 Multiple images state
+  const [imageFiles, setImageFiles] = useState([]);
+  const [previewUrls, setPreviewUrls] = useState(product?.images || []); // in case product already has images
 
   const categories = [
     "Nuts",
@@ -67,19 +304,30 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
     }));
   };
 
+  // 🔹 Handle multiple image selection
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setPreviewUrl(reader.result);
-      reader.readAsDataURL(file);
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      setImageFiles(files);
+
+      // Generate preview for all selected images
+      const previews = [];
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          previews.push(reader.result);
+          if (previews.length === files.length) {
+            setPreviewUrls(previews);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await onSubmit(formData, imageFile);
+    const result = await onSubmit(formData, imageFiles); // send array
     if (result.success) {
       onCancel();
     }
@@ -88,6 +336,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
   return (
     <div className="space-y-6">
       <form>
+        {/* --- title & category --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -127,6 +376,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           </div>
         </div>
 
+        {/* --- description --- */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Description
@@ -142,6 +392,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           />
         </div>
 
+        {/* --- pricing & stock --- */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -195,39 +446,47 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           </div>
         </div>
 
+        {/* --- multiple image upload --- */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             <ImageIcon className="w-4 h-4 inline mr-2" />
-            Product Image
+            Product Images
           </label>
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
             <input
               type="file"
               accept="image/*"
+              multiple
               onChange={handleImageChange}
               className="hidden"
               id="image-upload"
             />
             <label htmlFor="image-upload" className="cursor-pointer">
-              {previewUrl ? (
-                <div className="space-y-2">
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    className="mx-auto w-32 h-32 object-cover rounded-lg border-2 border-gray-200"
-                  />
-                  <p className="text-sm text-gray-600">Click to change image</p>
+              {previewUrls.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {previewUrls.map((url, index) => (
+                    <img
+                      key={index}
+                      src={url}
+                      alt={`Preview ${index}`}
+                      className="w-32 h-32 object-cover rounded-lg border-2 border-gray-200 mx-auto"
+                    />
+                  ))}
+                  <p className="col-span-full text-sm text-gray-600">
+                    Click to change images
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-2">
                   <Upload className="mx-auto w-12 h-12 text-gray-400" />
-                  <p className="text-gray-600">Click to upload image</p>
+                  <p className="text-gray-600">Click to upload images</p>
                 </div>
               )}
             </label>
           </div>
         </div>
 
+        {/* --- hot deal --- */}
         <div className="flex items-center">
           <input
             type="checkbox"
@@ -242,6 +501,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
           </label>
         </div>
 
+        {/* --- buttons --- */}
         <div className="flex gap-4 pt-4">
           <button
             onClick={handleSubmit}
@@ -261,112 +521,66 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
             Cancel
           </button>
         </div>
-        {/* </div>lg font-semibold hover:bg-gray-50 transition-colors"
-        >
-          Cancel
-        </button>
-      </div> */}
       </form>
     </div>
   );
 };
 
-const ProductCard = ({ product, onEdit, onDelete }) => {
+const ProductCard = ({
+  product,
+  onEdit,
+  onDelete,
+  isRefresh,
+  setIsRefresh,
+}) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  // console.log("product", product);
-
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
+  const handleConfirmDelete = async () => {
+    try {
       setIsDeleting(true);
       await onDelete(product.id);
+      setIsRefresh(!isRefresh);
+    } finally {
       setIsDeleting(false);
+      setShowConfirm(false);
     }
   };
 
-  const discount =
-    product.oldPrice && product.newPrice
-      ? Math.round(
-          ((product.oldPrice - product.newPrice) / product.oldPrice) * 100
-        )
-      : 0;
-
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+      {/* Product Image */}
       <div className="relative">
         <img
-          src={product.image}
-          alt={product.title}
+          src={
+            product?.images?.length > 0
+              ? product.images[0].url
+              : "/placeholder.png"
+          }
+          alt={product?.title || "Product image"}
           className="w-full h-48 object-cover"
         />
-        {product.inHotDeal && (
-          <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-            <Star className="w-3 h-3 inline mr-1" />
-            Hot Deal
-          </div>
-        )}
-        {discount > 0 && (
-          <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-sm font-bold">
-            -{discount}%
-          </div>
-        )}
-        <div className="absolute bottom-3 right-3 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-xs">
-          Stock: {product.stock}
-        </div>
       </div>
 
+      {/* Content */}
       <div className="p-5">
-        <div className="mb-3">
-          <h3 className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">
-            {product.title}
-          </h3>
-          <p className="text-gray-600 text-sm line-clamp-2">
-            {product.description}
-          </p>
-        </div>
+        <h3 className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">
+          {product.title}
+        </h3>
+        <p className="text-gray-600 text-sm line-clamp-2">
+          {product.description}
+        </p>
 
-        <div className="mb-3">
-          <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">
-            {product.category}
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            {product.oldPrice && (
-              <span className="text-gray-400 line-through text-sm">
-                ₹{product.oldPrice}
-              </span>
-            )}
-            <span className="text-xl font-bold text-green-600">
-              ₹{product.newPrice}
-            </span>
-          </div>
-          <div
-            className={`px-2 py-1 rounded-full text-xs font-medium ₹{
-            product.stock > 50 ? 'bg-green-100 text-green-800' :
-            product.stock > 10 ? 'bg-yellow-100 text-yellow-800' :
-            'bg-red-100 text-red-800'
-          }`}
-          >
-            {product.stock > 50
-              ? "In Stock"
-              : product.stock > 0
-              ? "Low Stock"
-              : "Out of Stock"}
-          </div>
-        </div>
-
-        <div className="flex gap-2">
+        {/* Buttons */}
+        <div className="flex gap-2 mt-4">
           <button
             onClick={() => onEdit(product)}
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
           >
-            <Edit3 className="w-4 h-4" />
-            Edit
+            <Edit3 className="w-4 h-4" /> Edit
           </button>
           <button
-            onClick={handleDelete}
+            onClick={() => setShowConfirm(true)}
             disabled={isDeleting}
             className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
@@ -375,6 +589,18 @@ const ProductCard = ({ product, onEdit, onDelete }) => {
           </button>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleConfirmDelete}
+        heading="Delete Product?"
+        description="This action cannot be undone."
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+        loading={isDeleting}
+      />
     </div>
   );
 };
@@ -389,6 +615,7 @@ const ProductManagementSystem = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const categories = [
     "Nuts",
@@ -416,7 +643,7 @@ const ProductManagementSystem = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [isRefresh]);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -569,6 +796,8 @@ const ProductManagementSystem = () => {
                 product={product}
                 onEdit={handleEdit}
                 onDelete={deleteProduct}
+                setIsRefresh={setIsRefresh}
+                isRefresh={isRefresh}
               />
             ))}
           </div>

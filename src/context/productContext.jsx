@@ -112,32 +112,32 @@ export const ProductProvider = ({ children }) => {
   };
 
   // Add Product with Cloudinary upload
-  const addProduct = async (productData, imageFile = null) => {
-    // if (!checkAuth()) return { success: false, error: 'Authentication required' };
-
+  const addProduct = async (productData, imageFiles = []) => {
     try {
       setLoading(true);
       setError(null);
 
-      let imageUrl = "";
-      let imagePublicId = "";
+      let uploadedImages = [];
 
-      // Upload image if provided
-      if (imageFile) {
+      // Upload multiple images if provided
+      if (imageFiles.length > 0) {
         try {
-          // Validate file type
-          if (!imageFile.type.startsWith("image/")) {
-            throw new Error("Please select a valid image file");
-          }
+          const uploadPromises = imageFiles.map(async (file) => {
+            // Validate file type
+            if (!file.type.startsWith("image/")) {
+              throw new Error("Please select valid image files only");
+            }
 
-          // Validate file size (10MB limit)
-          if (imageFile.size > 10 * 1024 * 1024) {
-            throw new Error("Image size must be less than 10MB");
-          }
+            // Validate file size (10MB limit)
+            if (file.size > 10 * 1024 * 1024) {
+              throw new Error("Image size must be less than 10MB");
+            }
 
-          const uploadResult = await uploadToCloudinary(imageFile);
-          imageUrl = uploadResult.url;
-          imagePublicId = uploadResult.publicId;
+            const uploadResult = await uploadToCloudinary(file);
+            return { url: uploadResult.url, publicId: uploadResult.publicId };
+          });
+
+          uploadedImages = await Promise.all(uploadPromises);
         } catch (uploadError) {
           console.error("Image upload error:", uploadError);
           throw new Error(`Image upload failed: ${uploadError.message}`);
@@ -153,8 +153,7 @@ export const ProductProvider = ({ children }) => {
         newPrice: parseFloat(productData.newPrice) || 0,
         stock: parseInt(productData.stock) || 0,
         inHotDeal: productData.inHotDeal || false,
-        image: imageUrl,
-        imagePublicId: imagePublicId, // Store for future deletion
+        images: uploadedImages, // ✅ Array of { url, publicId }
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         isActive: true,
@@ -244,7 +243,7 @@ export const ProductProvider = ({ children }) => {
   };
 
   // Update Product with Cloudinary
-  const updateProduct = async (productId, updates, newImageFile = null) => {
+  const updateProduct = async (productId, updates, newImageFiles = []) => {
     if (!checkAuth())
       return { success: false, error: "Authentication required" };
 
@@ -253,21 +252,34 @@ export const ProductProvider = ({ children }) => {
       setError(null);
 
       const docRef = doc(db, "products", productId);
-      let imageUrl = updates.image;
-      let imagePublicId = updates.imagePublicId;
 
-      // Handle image upload if new image provided
-      if (newImageFile) {
+      // Start with existing images (if any)
+      let images = updates.images || [];
+
+      // Handle new image uploads if provided
+      if (newImageFiles.length > 0) {
         try {
-          // Delete old image if exists
-          if (updates.imagePublicId) {
-            await deleteFromCloudinary(updates.imagePublicId);
+          const uploadedImages = [];
+
+          for (let file of newImageFiles) {
+            // Validate type
+            if (!file.type.startsWith("image/")) {
+              throw new Error("Please select a valid image file");
+            }
+            // Validate size (10MB max)
+            if (file.size > 10 * 1024 * 1024) {
+              throw new Error("Image size must be less than 10MB");
+            }
+
+            const uploadResult = await uploadToCloudinary(file);
+            uploadedImages.push({
+              url: uploadResult.url,
+              publicId: uploadResult.publicId,
+            });
           }
 
-          // Upload new image
-          const uploadResult = await uploadToCloudinary(newImageFile);
-          imageUrl = uploadResult.url;
-          imagePublicId = uploadResult.publicId;
+          // Merge new uploads with existing images
+          images = [...images, ...uploadedImages];
         } catch (uploadError) {
           console.error("Image upload error:", uploadError);
           throw new Error(`Image upload failed: ${uploadError.message}`);
@@ -277,8 +289,7 @@ export const ProductProvider = ({ children }) => {
       // Prepare update data
       const updateData = {
         ...updates,
-        image: imageUrl,
-        imagePublicId: imagePublicId,
+        images, // store as array
         updatedAt: serverTimestamp(),
       };
 
@@ -289,7 +300,7 @@ export const ProductProvider = ({ children }) => {
         }
       });
 
-      // Update in Firestore
+      // Update Firestore
       await updateDoc(docRef, updateData);
 
       // Update local state
