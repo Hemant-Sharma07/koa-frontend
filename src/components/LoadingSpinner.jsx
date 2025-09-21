@@ -64,7 +64,7 @@ import React from "react";
 
 const LoadingSpinner = () => {
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center backdrop-blur-md z-50">
+    <div className="fixed inset-0 flex flex-col items-center justify-center  bg-orange-600/90 backdrop-filter backdrop-blur-md z-50">
       {/* Logo with pulse zoom effect */}
       <img
         src="/logoBG.png"
@@ -73,7 +73,7 @@ const LoadingSpinner = () => {
       />
 
       {/* Text */}
-      <h2 className="mt-4 text-2xl font-semibold text-orange-600 tracking-wide animate-fade-in">
+      <h2 className="mt-4 text-2xl font-semibold text-white tracking-wide animate-fade-in">
         KOA Dry Fruits
       </h2>
     </div>

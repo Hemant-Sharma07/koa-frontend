@@ -7,6 +7,7 @@ import { useProduct } from "../../context/productContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import HomeHighlightSection from "../../components/HomeHighlightSection";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -238,6 +239,7 @@ const Home = () => {
             })}
           </section>
         </div>
+        <HomeHighlightSection />
         <div>
           <PageHeader
             heading="Saffron Collection"
